@@ -5,38 +5,37 @@
         uiState:'start',
         currentIndex:{{current_index}},
     }">
-    <a
-        id="next"
-        href="{% url 'main:next' %}"
-        x-show="uiState=='recorded' && currentIndex!==4"
-        >
-            next
-    </a>
     <button
-        id="save-recording"
+        id="record"
         x-on:click="uiState='recording'"
         x-show="uiState=='start'"
         >
             record
     </button>
     <button
-        id="save-recording"
-        x-on:click="uiState='recording'"
-        x-show="uiState=='recorded'"
-        >
-            record again
-    </button>
-    <button
-        id="save-recording"
+        id="stop"
         x-on:click="uiState='recorded'"
         x-show="uiState=='recording'"
         >
             stop recording
     </button>
+    <button
+        id="record-again"
+        x-show="uiState=='recorded'"
+        >
+            record again
+    </button>
     <li>{{ sentence.id }}</a></li>
     <li>{{ sentence.sentence }}</a></li>
     <li>{{ sentence.sound_path }}</a></li>
     <li x-text="uiState"></li>
+    <form action="{% url  'main:next' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" 
+            x-show="uiState=='recorded' && currentIndex!==4">
+    </form>
+    <div class="sound-clips"></div>
     <a
         href="{% url 'main:result' %}"
         x-show="currentIndex == 4 && uiState == 'recorded'"
@@ -45,3 +44,8 @@
     </a>
 </div>
 {% endblock content %}
+
+{% block script %}
+{% load static %}
+<script src="{% static 'main/test.js' %}"></script>
+{% endblock %}

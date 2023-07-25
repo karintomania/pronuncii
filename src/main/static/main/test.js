@@ -7,7 +7,6 @@ const recordingFile = document.querySelector('#id_recording');
 //main block for doing the audio recording
 
 if (navigator.mediaDevices.getUserMedia) {
-  console.log('getUserMedia supported.');
 
   const constraints = { audio: true };
   let chunks = [];
@@ -17,21 +16,16 @@ if (navigator.mediaDevices.getUserMedia) {
 
     record.onclick = function() {
       mediaRecorder.start();
-      console.log(mediaRecorder.state);
-      console.log("recorder started");
 
     }
 
     stop.onclick = function() {
       mediaRecorder.stop();
-      console.log(mediaRecorder.state);
-      console.log("recorder stopped");
       // mediaRecorder.requestData();
 
     }
 
     mediaRecorder.onstop = function(e) {
-      console.log("data available after MediaRecorder.stop() called.");
 
       const clipName = "your recording"
 
@@ -68,7 +62,7 @@ if (navigator.mediaDevices.getUserMedia) {
   }
 
   let onError = function(err) {
-    console.log('The following error occured: ' + err);
+     console.log('The following error occured: ' + err);
   }
 
   navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);

@@ -1,11 +1,47 @@
-<h1>Test</h1>
-<html>
-  <head>
-  </head>
-  <body>
-    <a href="{% url 'main:result' %}">result</a>
-    {% for sentence in sentences %}
-        <li>{{ sentence.sentence }}</a></li>
-    {% endfor %}
-  </body>
-</html>
+{% extends "main/base.html" %}
+
+{% block content %}
+<div x-data="{
+        uiState:'start',
+        currentIndex:{{current_index}},
+    }">
+    <a
+        id="next"
+        href="{% url 'main:next' %}"
+        x-show="uiState=='recorded' && currentIndex!==4"
+        >
+            next
+    </a>
+    <button
+        id="save-recording"
+        x-on:click="uiState='recording'"
+        x-show="uiState=='start'"
+        >
+            record
+    </button>
+    <button
+        id="save-recording"
+        x-on:click="uiState='recording'"
+        x-show="uiState=='recorded'"
+        >
+            record again
+    </button>
+    <button
+        id="save-recording"
+        x-on:click="uiState='recorded'"
+        x-show="uiState=='recording'"
+        >
+            stop recording
+    </button>
+    <li>{{ sentence.id }}</a></li>
+    <li>{{ sentence.sentence }}</a></li>
+    <li>{{ sentence.sound_path }}</a></li>
+    <li x-text="uiState"></li>
+    <a
+        href="{% url 'main:result' %}"
+        x-show="currentIndex == 4 && uiState == 'recorded'"
+    >
+        result
+    </a>
+</div>
+{% endblock content %}

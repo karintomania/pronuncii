@@ -1,2 +1,12 @@
+{% extends "main/base.html" %}
+
+{% block content %}
 <h1>Result</h1>
+{% for result in results %}
+<ul>
+<li>{{ result.sentence }}</li>
+<li>{{ result.sound_path }}</li>
+</ul>
+{% endfor %}
 <a href="{% url 'main:index' %}">back</a>
+{% endblock content %}

@@ -16,11 +16,13 @@ class SentenceTest(TestCase):
 
     def test_get_sentence_for_test(self) -> None:
         sentences = Sentence.objects.get_sentences_for_test()
+
+        expectedSentencesCount = Sentence.objects.TEST_SENTENCES_COUNT
         # test if it retrieves 5 records
-        self.assertEquals(5, len(sentences))
+        self.assertEquals(expectedSentencesCount, len(sentences))
         idSet = set()
         for sentence in sentences:
             idSet.add(sentence.id) 
         # test if the result doesn't contain duplicated records
-        self.assertEquals(5, len(idSet))
+        self.assertEquals(expectedSentencesCount, len(idSet))
 

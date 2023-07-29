@@ -7,27 +7,19 @@ from django.core import serializers
 from pprint import pp
 from django.shortcuts import redirect
 from .forms import NameForm
+from django.conf import settings
+from .services.session_service import SessionService
 
 # Create your views here.
 def index(request):
     return render(request, 'main/index.html')
 
 def start_test(request):
-
-    # get sentences
     qset = Sentence.objects.get_sentences_for_test()
-    sentences = [{
-        "id": sentence.id,
-        "sentence": sentence.sentence,
-        "pronunciation_sound_url": sentence.pronunciation_sound_url,
-        "sound_path": ""
-        } for sentence in qset]
 
-    # save ids in session
-    request.session[Config.SESSION_SENTENCES] = sentences
-    request.session[Config.SESSION_CURRENT_INDEX] = 0
+    sessionService = SessionService(request.session)
+    sessionService.set_sentences(qset)
 
-    # redirect to test page
     return redirect("main:test")
 
 def test(request):
@@ -47,7 +39,6 @@ def test(request):
 
 def next(request):
 
-    print(len(request.FILES["recording"]))
     form = NameForm(request.POST, request.FILES)
 
     if form.is_valid():
@@ -73,6 +64,9 @@ class Config():
     SESSION_SENTENCES = "sentences"
 
 def handle_uploaded_file(f):
-    with open("./sound.wav", "wb+") as destination:
+    path =  f"{settings.BASE_DIR}/main/static/sound.wav"
+    with open(path, "wb+") as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+
+

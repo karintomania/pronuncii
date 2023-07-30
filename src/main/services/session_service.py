@@ -1,4 +1,6 @@
-from main.models import Sentence
+"""
+This is a class to deal with session used in test.
+"""
 
 
 class SessionService:
@@ -25,6 +27,10 @@ class SessionService:
 
     def set_index(self, index):
         self.session[self.CURRENT_INDEX_KEY] = index
+
+    def set_sentence(self, index, sentence):
+        self.session[self.SENTENCES_KEY][index] = sentence
+        self.session.modified = True
 
     def get_sentence_info(self):
         index = self.session[self.CURRENT_INDEX_KEY]

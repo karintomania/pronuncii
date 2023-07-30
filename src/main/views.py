@@ -2,11 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import json
 from .models import Sentence
-from .services import test_service
 from django.core import serializers
 from pprint import pp
 from django.shortcuts import redirect
-from .forms import NameForm
+from .forms import FileForm
 from django.conf import settings
 from .services.session_service import SessionService
 
@@ -27,10 +26,10 @@ def start_test(request):
 
 def test(request):
     # get sentence
-    current_index = request.session[Config.SESSION_CURRENT_INDEX]
-    sentence = request.session[Config.SESSION_SENTENCES][current_index]
+    sessionService = SessionService(request.session)
+    current_index, sentence = sessionService.get_sentence_info()
 
-    form = NameForm()
+    form = FileForm()
 
     # show one question
     return render(
@@ -45,21 +44,17 @@ def test(request):
 
 
 def next(request):
-    form = NameForm(request.POST, request.FILES)
+    form = FileForm(request.POST, request.FILES)
 
     if form.is_valid():
+        sessionService = SessionService(request.session)
         handle_uploaded_file(request.FILES["recording"])
         # get sentence
-        current_index = request.session[Config.SESSION_CURRENT_INDEX]
-        sentence = request.session[Config.SESSION_SENTENCES][current_index]
-
+        current_index, sentence = sessionService.get_sentence_info()
         # update session
-        sentence["sound_path"] = form.cleaned_data["your_name"]
-        request.session[Config.SESSION_SENTENCES][
-            request.session[Config.SESSION_CURRENT_INDEX]
-        ] = sentence
-        request.session[Config.SESSION_CURRENT_INDEX] += 1
-        request.session.modified = True
+        sentence["sound_path"] = "file path"
+        sessionService.set_sentence(current_index, sentence)
+        sessionService.set_index(current_index + 1)
 
     return redirect("main:test")
 

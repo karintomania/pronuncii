@@ -80,8 +80,8 @@ DATABASES = {
         'NAME': 'pronuncii',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
-        'PORT': '3309',
+        'HOST': 'pronuncii-db',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 

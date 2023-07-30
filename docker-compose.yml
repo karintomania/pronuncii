@@ -1,17 +1,30 @@
 version: "3.7"
 services:
+  pronuncii-py:
+    build: .
+    container_name: pronuncii-py
+    volumes:
+      - "./src/:/app/"
+    ports:
+      - "85:85"
+    depends_on:
+      pronuncii-db:
+        condition: service_healthy
+
   pronuncii-db:
     container_name: pronuncii-db
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - "pronuncii-db:/var/lib/mysql"
-      - "./mysql/log/:/var/log/mysql/"
-      - "./mysql/conf:/etc/mysql/conf.d"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: pronuncii
     ports:
       - "3309:3306"
+    healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+        timeout: 5s
+        retries: 10
 volumes:
   pronuncii-db:

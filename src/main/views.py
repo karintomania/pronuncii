@@ -7,6 +7,7 @@ from pprint import pp
 from django.shortcuts import redirect
 from .forms import FileForm
 from django.conf import settings
+from .services.recording_file_service import save_file
 from .services.session_service import SessionService
 
 
@@ -44,29 +45,23 @@ def test(request):
 
 
 def next(request):
-    form = FileForm(request.POST, request.FILES)
+    sessionService = SessionService(request.session)
+    # get sentence
+    currentIndex, sentence = sessionService.get_sentence_info()
 
-    if form.is_valid():
-        sessionService = SessionService(request.session)
-        handle_uploaded_file(request.FILES["recording"])
-        # get sentence
-        current_index, sentence = sessionService.get_sentence_info()
+    if save_recording(request, sessionService.get_session_key, currentIndex):
         # update session
         sentence["sound_path"] = "file path"
-        sessionService.set_sentence(current_index, sentence)
-        sessionService.set_index(current_index + 1)
+        sessionService.set_sentence(currentIndex, sentence)
+        sessionService.set_index(currentIndex + 1)
 
-    return redirect("main:test")
+        return redirect("main:test")
 
 
 def result(request):
-    results = request.session[Config.SESSION_SENTENCES]
+    sessionService = SessionService(request.session)
+    results = sessionService.get_sentences()
     return render(request, "main/result.html", {"results": results})
-
-
-class Config:
-    SESSION_CURRENT_INDEX = "current_sentence_index"
-    SESSION_SENTENCES = "sentences"
 
 
 def handle_uploaded_file(f):
@@ -74,3 +69,14 @@ def handle_uploaded_file(f):
     with open(path, "wb+") as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+
+
+def save_recording(request, sessionKey, currentIndex):
+    form = FileForm(request.POST, request.FILES)
+
+    if not form.is_valid():
+        return False
+
+    # save the recording
+    save_file(request.FILES["recording"], sessionKey, currentIndex)
+    return True

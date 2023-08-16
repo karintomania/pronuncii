@@ -36,3 +36,9 @@ class SessionService:
         index = self.session[self.CURRENT_INDEX_KEY]
         sentence = self.session[self.SENTENCES_KEY][index]
         return (index, sentence)
+
+    def get_sentences(self):
+        return self.session[self.SENTENCES_KEY]
+
+    def get_session_key(self):
+        return self.session.session_key

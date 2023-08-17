@@ -4,6 +4,7 @@
 <div x-data="{
         uiState:'start',
         currentIndex:{{current_index}},
+        sentenceCount:{{sentence_count}}
     }">
     <button
         id="record"
@@ -33,12 +34,12 @@
         {% csrf_token %}
         {{ form }}
         <input type="submit" 
-            x-show="uiState=='recorded' && currentIndex!==4">
+            x-show="uiState=='recorded' && currentIndex!==sentenceCount-1">
     </form>
     <div class="sound-clips"></div>
     <a
-        href="{% url 'main:result' %}"
-        x-show="currentIndex == 4 && uiState == 'recorded'"
+        href="{% url 'main:finish_test' %}"
+        x-show="currentIndex == sentenceCount-1 && uiState == 'recorded'"
     >
         result
     </a>

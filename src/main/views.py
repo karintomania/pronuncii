@@ -39,6 +39,7 @@ def test(request):
         {
             "sentence": sentence,
             "current_index": current_index,
+            "sentence_count": Sentence.objects.TEST_SENTENCES_COUNT,
             "form": form,
         },
     )
@@ -48,8 +49,8 @@ def next(request):
     sessionService = SessionService(request.session)
     # get sentence
     currentIndex, sentence = sessionService.get_sentence_info()
-
-    if save_recording(request, sessionService.get_session_key, currentIndex):
+    succeed = save_recording(request, sessionService.get_session_key(), currentIndex)
+    if succeed:
         # update session
         sentence["sound_path"] = "file path"
         sessionService.set_sentence(currentIndex, sentence)
@@ -58,9 +59,16 @@ def next(request):
         return redirect("main:test")
 
 
+def finish_test(request):
+    return redirect("main:result")
+
+
 def result(request):
     sessionService = SessionService(request.session)
+    # currentIndex, sentence = sessionService.get_sentence_info()
+
     results = sessionService.get_sentences()
+
     return render(request, "main/result.html", {"results": results})
 
 
@@ -71,7 +79,7 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 
 
-def save_recording(request, sessionKey, currentIndex):
+def save_recording(request, sessionKey, currentIndex) -> bool:
     form = FileForm(request.POST, request.FILES)
 
     if not form.is_valid():

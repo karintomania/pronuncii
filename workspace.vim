@@ -9,13 +9,15 @@ command! -nargs=0 Format call RunFormatCommand()
 
 function! RunCurrentTest()
   " Get the current file path
-  let l:filename = expand('%:p')
+  let l:current_file = expand('%')
+  let l:filepath = fnamemodify(l:current_file, ':~:.')
   " Extract the Django app and test module names from the file path
-  let l:parts = split(l:filename, '/')
-  let l:app_name = substitute(l:parts[-3], '\\.', ' ', 'g')
-  let l:module_name = substitute(l:parts[-1], '\\.py$', '', '')
+  let l:filepath = substitute(l:filepath, '/', '.', 'g')
+  let l:filepath = substitute(l:filepath, '.py$', '', '')
+  let l:filepath = substitute(l:filepath, '^src.', '', '')
   " Construct the command to run the test
-  let l:command = 'docker exec pronuncii-py python manage.py test ' . l:app_name . '.' . l:module_name
+  let l:command = 'docker exec pronuncii-py python manage.py test ' . l:filepath
+
   " Open a terminal window and run the command
   execute "belowright split|terminal " . l:command
 endfunction

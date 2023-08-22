@@ -28,13 +28,12 @@ class Assessment:
         assessment = cls()
 
         assessment.sentences = [
-                Sentence(
-                    sentence = sentence_model.sentence,
-                    pronunciation_sound_url = sentence_model.pronunciation_sound_url,
-                    file_path = "",
-                    is_answered = False,
-                    )
+            Sentence(
+                sentence=sentence_model.sentence,
+                pronunciation_sound_url=sentence_model.pronunciation_sound_url,
+                file_path="",
+                is_answered=False,
+            )
             for sentence_model in qset
         ]
         return assessment
-

@@ -25,7 +25,6 @@ class SessionService:
     def has_assessment(self) -> Assessment:
         return self.session.get(self.ASSESSMENT_KEY) != None
 
-
     def set_sentences(self, qset):
         sentences = [
             {

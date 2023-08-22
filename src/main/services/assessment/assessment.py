@@ -1,3 +1,4 @@
+from main.models import Sentence as SentenceModel
 from .sentence import Sentence
 
 
@@ -21,3 +22,19 @@ class Assessment:
             Sentence.from_dict(sentence_dict) for sentence_dict in sentences_dic
         ]
         return assessment
+
+    @classmethod
+    def from_qset(cls, qset):
+        assessment = cls()
+
+        assessment.sentences = [
+                Sentence(
+                    sentence = sentence_model.sentence,
+                    pronunciation_sound_url = sentence_model.pronunciation_sound_url,
+                    file_path = "",
+                    is_answered = False,
+                    )
+            for sentence_model in qset
+        ]
+        return assessment
+

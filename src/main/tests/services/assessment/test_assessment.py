@@ -2,6 +2,7 @@ from unittest import TestCase
 from main.services.assessment.sentence import Sentence
 from main.services.assessment.assessment import Assessment
 from pprint import pp
+from main.models import Sentence as SentenceModel
 
 
 class AssessmentTest(TestCase):
@@ -74,3 +75,30 @@ class AssessmentTest(TestCase):
         )
         self.assertEqual(expected_sentence.file_path, res_sentence.file_path)
         self.assertEqual(expected_sentence.is_answered, res_sentence.is_answered)
+
+    def test_from_qset(self):
+
+        expected_sentence1 = SentenceModel(sentence="test 1", pronunciation_sound_url="url1")
+        expected_sentence2 = SentenceModel(sentence="test 2", pronunciation_sound_url="url2")
+        mockQset = [
+                expected_sentence1,
+                expected_sentence2,
+        ]
+
+        assessment = Assessment.from_qset(mockQset)
+
+        sentence1 = assessment.sentences[0]
+        sentence2 = assessment.sentences[1]
+
+        self.assertEquals(expected_sentence1.sentence, sentence1.sentence)
+        self.assertEquals(expected_sentence1.pronunciation_sound_url, sentence1.pronunciation_sound_url)
+        self.assertEquals("", sentence1.file_path)
+        self.assertEquals(False, sentence1.is_answered)
+
+        self.assertEquals(expected_sentence2.sentence, sentence2.sentence)
+        self.assertEquals(expected_sentence2.pronunciation_sound_url, sentence2.pronunciation_sound_url)
+        self.assertEquals("", sentence2.file_path)
+        self.assertEquals(False, sentence2.is_answered)
+
+
+

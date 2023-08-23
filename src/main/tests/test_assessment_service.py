@@ -59,6 +59,8 @@ class AssessmentServiceTest(TestCase):
         self.assertEqual("", sentences[1].file_path)
         self.assertEqual(False, sentences[1].is_answered)
 
+        self.assertEqual(0, assessment_service.index)
+
     def test_init_sets_assessment_from_session(self) -> None:
         sentence1 = Sentence(
             "sentence1", "http://example.com/test1.mp3", "some/path/test1.mp3", True
@@ -68,7 +70,8 @@ class AssessmentServiceTest(TestCase):
         )
         # set sentence to session
         session_mock = {
-            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()]
+            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
+            SessionService.CURRENT_INDEX_KEY: 3,
         }
         assessment_service = AssessmentService(session_mock)
 
@@ -88,3 +91,68 @@ class AssessmentServiceTest(TestCase):
         )
         self.assertEqual(sentence2.file_path, sentences[1].file_path)
         self.assertEqual(sentence2.is_answered, sentences[1].is_answered)
+
+        self.assertEqual(
+            assessment_service.index, session_mock.get(SessionService.CURRENT_INDEX_KEY)
+        )
+
+    def test_get_current_index(self):
+        current_index = 1
+        sentence1 = Sentence(
+            "sentence1", "http://example.com/test1.mp3", "some/path/test1.mp3", True
+        )
+        sentence2 = Sentence(
+            "sentence2", "http://example.com/test2.mp3", "some/path/test2.mp3", True
+        )
+        # set sentence to session
+        session_mock = {
+            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
+            SessionService.CURRENT_INDEX_KEY: current_index,
+        }
+
+        assessment_service = AssessmentService(session_mock)
+
+        result = assessment_service.get_current_index()
+        self.assertEqual(current_index, result)
+
+    def test_get_current_sentence(self):
+        current_index = 1
+        sentence1 = Sentence(
+            "sentence1", "http://example.com/test1.mp3", "some/path/test1.mp3", True
+        )
+        sentence2 = Sentence(
+            "sentence2", "http://example.com/test2.mp3", "some/path/test2.mp3", True
+        )
+        # set sentence to session
+        session_mock = {
+            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
+            SessionService.CURRENT_INDEX_KEY: current_index,
+        }
+
+        assessment_service = AssessmentService(session_mock)
+
+        result = assessment_service.get_current_sentence()
+        self.assertEqual(sentence2.sentence, result.sentence)
+
+    def test_add_file_path(self):
+        current_index = 1
+        sentence1 = Sentence(
+            "sentence1", "http://example.com/test1.mp3", "some/path/test1.mp3", True
+        )
+        sentence2 = Sentence(
+            "sentence2", "http://example.com/test2.mp3", "", False
+        )
+        session_mock = {
+            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
+            SessionService.CURRENT_INDEX_KEY: current_index,
+        }
+
+        assessment_service = AssessmentService(session_mock)
+        file_path = "some/path/test2.mp3"
+
+        assessment_service.add_file_path(file_path)
+
+        sentence = assessment_service.get_current_sentence()
+        self.assertEqual(file_path, sentence.file_path)
+        self.assertTrue(sentence.is_answered)
+

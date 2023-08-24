@@ -9,6 +9,7 @@ from .forms import FileForm
 from django.conf import settings
 from .services.recording_file_service import save_file
 from .services.session_service import SessionService
+from .services.assessment_service import AssessmentService
 
 
 # Create your views here.
@@ -16,19 +17,18 @@ def index(request):
     return render(request, "main/index.html")
 
 
-def start_test(request):
-    qset = Sentence.objects.get_sentences_for_test()
+# def start_test(request):
+#     qset = Sentence.objects.get_sentences_for_test()
 
-    sessionService = SessionService(request.session)
-    sessionService.set_sentences(qset)
+#     sessionService = SessionService(request.session)
+#     sessionService.set_sentences(qset)
 
-    return redirect("main:test")
+#     return redirect("main:test")
 
 
 def test(request):
     # get sentence
-    sessionService = SessionService(request.session)
-    current_index, sentence = sessionService.get_sentence_info()
+    assessment_service = AssessmentService(request.session)
 
     form = FileForm()
 
@@ -37,8 +37,8 @@ def test(request):
         request,
         "main/test.html",
         {
-            "sentence": sentence,
-            "current_index": current_index,
+            "sentence": assessment_service.get_current_sentence(),
+            "current_index": assessment_service.get_current_index(),
             "sentence_count": Sentence.objects.TEST_SENTENCES_COUNT,
             "form": form,
         },
@@ -46,30 +46,35 @@ def test(request):
 
 
 def next(request):
-    sessionService = SessionService(request.session)
-    # get sentence
-    currentIndex, sentence = sessionService.get_sentence_info()
-    succeed = save_recording(request, sessionService.get_session_key(), currentIndex)
-    if succeed:
-        # update session
-        sentence["sound_path"] = "file path"
-        sessionService.set_sentence(currentIndex, sentence)
-        sessionService.set_index(currentIndex + 1)
+    is_success = save_recording(request)
 
-        return redirect("main:test")
+    return redirect("main:test")
 
 
 def finish_test(request):
+    is_success = save_recording(request)
+
     return redirect("main:result")
+
+def save_recording(request):
+    form = FileForm(request.POST, request.FILES)
+
+    if not form.is_valid():
+        # TODO: validation handling
+        return False
+
+    assessment_service = AssessmentService(request.session)
+    session_key = request.session.session_key
+    file_path = save_file(request.FILES["recording"], session_key, assessment_service.get_current_index())
+
+    assessment_service.add_file_path(file_path)
+    return True
 
 
 def result(request):
-    sessionService = SessionService(request.session)
-    # currentIndex, sentence = sessionService.get_sentence_info()
+    assessment_service = AssessmentService(request.session)
 
-    results = sessionService.get_sentences()
-
-    return render(request, "main/result.html", {"results": results})
+    return render(request, "main/result.html", {"results": assessment_service.assessment.get_sentences()})
 
 
 def handle_uploaded_file(f):
@@ -78,13 +83,3 @@ def handle_uploaded_file(f):
         for chunk in f.chunks():
             destination.write(chunk)
 
-
-def save_recording(request, sessionKey, currentIndex) -> bool:
-    form = FileForm(request.POST, request.FILES)
-
-    if not form.is_valid():
-        return False
-
-    # save the recording
-    save_file(request.FILES["recording"], sessionKey, currentIndex)
-    return True

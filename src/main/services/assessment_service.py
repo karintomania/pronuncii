@@ -16,13 +16,16 @@ class AssessmentService:
             qset = SentenceModel.objects.get_sentences_for_test()
             self.assessment = Assessment.from_qset(qset)
             self.session_service.set_assessment(self.assessment)
+
             self.index = 0
+            self.session_service.set_index(self.index)
 
     def get_current_index(self):
         return self.index
 
     def get_current_sentence(self) -> Sentence:
-        sentence = self.assessment.get_sentences()[self.index]
+        sentences = self.assessment.get_sentences()
+        sentence = sentences[self.index]
         return sentence
 
     def add_file_path(self, file_path):
@@ -31,4 +34,9 @@ class AssessmentService:
         sentence.is_answered = True
 
         self.session_service.set_assessment(self.assessment)
+        index = self.session_service.get_index() + 1
+        self.session_service.set_index(index)
+
+    def finish_assessment(self):
+        pass
 

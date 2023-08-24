@@ -27,7 +27,7 @@ class AssessmentTest(TestCase):
     def test_add_sentences(self):
         assessment = Assessment()
         sentence = Sentence(
-            "sentence", "http://example.com/test.mp3", "some/path/test.mp3", False
+            "sentence", "http://example.com/test.mp3", "some/path/test.mp3", False, "answer"
         )
 
         assessment.add_sentence(sentence)
@@ -38,7 +38,7 @@ class AssessmentTest(TestCase):
     def test_to_dict(self):
         assessment = Assessment()
         sentence = Sentence(
-            "sentence", "http://example.com/test.mp3", "some/path/test.mp3", False
+            "sentence", "http://example.com/test.mp3", "some/path/test.mp3", False, "answer"
         )
         assessment.add_sentence(sentence)
         assessment_dic = assessment.to_dict()
@@ -49,6 +49,7 @@ class AssessmentTest(TestCase):
                 "sound_url": "http://example.com/test.mp3",
                 "file_path": "some/path/test.mp3",
                 "is_answered": False,
+                "answer": "answer",
             }
         ]
 
@@ -61,6 +62,7 @@ class AssessmentTest(TestCase):
                 "sound_url": "http://example.com/test.mp3",
                 "file_path": "some/path/test.mp3",
                 "is_answered": False,
+                "answer": "answer",
             }
         ]
         res = Assessment.from_dict(assessment_dic)
@@ -94,11 +96,12 @@ class AssessmentTest(TestCase):
         self.assertEquals(expected_sentence1.sound_url, sentence1.sound_url)
         self.assertEquals("", sentence1.file_path)
         self.assertEquals(False, sentence1.is_answered)
+        self.assertEquals("", sentence1.answer)
 
         self.assertEquals(expected_sentence2.sentence, sentence2.sentence)
         self.assertEquals(expected_sentence2.sound_url, sentence2.sound_url)
         self.assertEquals("", sentence2.file_path)
         self.assertEquals(False, sentence2.is_answered)
-
+        self.assertEquals("", sentence2.answer)
 
 

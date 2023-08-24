@@ -11,11 +11,11 @@ from pprint import pp
 class SessionServiceTest(TestCase):
     def test_set_sentence(self) -> None:
         mockQset = [
-            SentenceModel(sentence="test 1", pronunciation_sound_url="url1"),
-            SentenceModel(sentence="test 2", pronunciation_sound_url="url2"),
-            SentenceModel(sentence="test 3", pronunciation_sound_url="url3"),
-            SentenceModel(sentence="test 4", pronunciation_sound_url="url4"),
-            SentenceModel(sentence="test 5", pronunciation_sound_url="url5"),
+            SentenceModel(sentence="test 1", sound_url="url1"),
+            SentenceModel(sentence="test 2", sound_url="url2"),
+            SentenceModel(sentence="test 3", sound_url="url3"),
+            SentenceModel(sentence="test 4", sound_url="url4"),
+            SentenceModel(sentence="test 5", sound_url="url5"),
         ]
         ss = self.get_mocked_session_service()
         ss.set_sentences(mockQset)
@@ -25,7 +25,7 @@ class SessionServiceTest(TestCase):
             self.assertEquals(i, index)
             self.assertEquals(mockQset[i].sentence, sentence["sentence"])
             self.assertEquals(
-                mockQset[i].pronunciation_sound_url, sentence["pronunciation_sound_url"]
+                mockQset[i].sound_url, sentence["sound_url"]
             )
             ss.set_index(i + 1)
 

@@ -30,7 +30,7 @@ class SessionService:
             {
                 "id": sentence.id,
                 "sentence": sentence.sentence,
-                "pronunciation_sound_url": sentence.pronunciation_sound_url,
+                "sound_url": sentence.sound_url,
                 "sound_path": "",
             }
             for sentence in qset

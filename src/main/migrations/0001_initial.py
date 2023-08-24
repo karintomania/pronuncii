@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("sentence", models.CharField(max_length=200)),
-                ("pronunciation_sound_url", models.CharField(max_length=1000)),
+                ("sound_url", models.CharField(max_length=1000)),
             ],
         ),
     ]

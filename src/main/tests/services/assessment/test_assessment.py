@@ -46,7 +46,7 @@ class AssessmentTest(TestCase):
         expected = [
             {
                 "sentence": "sentence",
-                "pronunciation_sound_url": "http://example.com/test.mp3",
+                "sound_url": "http://example.com/test.mp3",
                 "file_path": "some/path/test.mp3",
                 "is_answered": False,
             }
@@ -58,7 +58,7 @@ class AssessmentTest(TestCase):
         assessment_dic = [
             {
                 "sentence": "sentence",
-                "pronunciation_sound_url": "http://example.com/test.mp3",
+                "sound_url": "http://example.com/test.mp3",
                 "file_path": "some/path/test.mp3",
                 "is_answered": False,
             }
@@ -70,16 +70,16 @@ class AssessmentTest(TestCase):
         )
         self.assertEqual(expected_sentence.sentence, res_sentence.sentence)
         self.assertEqual(
-            expected_sentence.pronunciation_sound_url,
-            res_sentence.pronunciation_sound_url,
+            expected_sentence.sound_url,
+            res_sentence.sound_url,
         )
         self.assertEqual(expected_sentence.file_path, res_sentence.file_path)
         self.assertEqual(expected_sentence.is_answered, res_sentence.is_answered)
 
     def test_from_qset(self):
 
-        expected_sentence1 = SentenceModel(sentence="test 1", pronunciation_sound_url="url1")
-        expected_sentence2 = SentenceModel(sentence="test 2", pronunciation_sound_url="url2")
+        expected_sentence1 = SentenceModel(sentence="test 1", sound_url="url1")
+        expected_sentence2 = SentenceModel(sentence="test 2", sound_url="url2")
         mockQset = [
                 expected_sentence1,
                 expected_sentence2,
@@ -91,12 +91,12 @@ class AssessmentTest(TestCase):
         sentence2 = assessment.sentences[1]
 
         self.assertEquals(expected_sentence1.sentence, sentence1.sentence)
-        self.assertEquals(expected_sentence1.pronunciation_sound_url, sentence1.pronunciation_sound_url)
+        self.assertEquals(expected_sentence1.sound_url, sentence1.sound_url)
         self.assertEquals("", sentence1.file_path)
         self.assertEquals(False, sentence1.is_answered)
 
         self.assertEquals(expected_sentence2.sentence, sentence2.sentence)
-        self.assertEquals(expected_sentence2.pronunciation_sound_url, sentence2.pronunciation_sound_url)
+        self.assertEquals(expected_sentence2.sound_url, sentence2.sound_url)
         self.assertEquals("", sentence2.file_path)
         self.assertEquals(False, sentence2.is_answered)
 

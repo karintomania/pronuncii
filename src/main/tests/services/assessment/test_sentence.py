@@ -11,7 +11,7 @@ class SentenceTest(TestCase):
     def test_to_dict(self):
         expected = {
             "sentence": "Hello world!",
-            "pronunciation_sound_url": "https://example.com/pronunciation.mp3",
+            "sound_url": "https://example.com/pronunciation.mp3",
             "file_path": "some/path/example.txt",
             "is_answered": True,
         }
@@ -21,7 +21,7 @@ class SentenceTest(TestCase):
     def test_from_dict(self):
         sentence_dict = {
             "sentence": "Hello world!",
-            "pronunciation_sound_url": "https://example.com/pronunciation.mp3",
+            "sound_url": "https://example.com/pronunciation.mp3",
             "file_path": "some/path/example.txt",
             "is_answered": True,
         }
@@ -30,8 +30,8 @@ class SentenceTest(TestCase):
 
         self.assertEqual(sentence_dict["sentence"], result.sentence)
         self.assertEqual(
-            sentence_dict["pronunciation_sound_url"],
-            result.pronunciation_sound_url
+            sentence_dict["sound_url"],
+            result.sound_url
         )
         self.assertEqual(sentence_dict["file_path"], result.file_path)
         self.assertEqual(sentence_dict["is_answered"], result.is_answered)

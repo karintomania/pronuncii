@@ -11,7 +11,7 @@ class SentenceTest(TestCase):
         for i in range(sentence_count + 1):
             Sentence.objects.create(
                 sentence=f"test {i+1}",
-                pronunciation_sound_url=f"url{i+1}",
+                sound_url=f"url{i+1}",
             )
 
         return super().setUp()

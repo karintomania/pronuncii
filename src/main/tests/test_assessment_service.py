@@ -33,7 +33,7 @@ class AssessmentServiceTest(TestCase):
         for i in range(sentence_count + 1):
             SentenceModel.objects.create(
                 sentence=f"test {i+1}",
-                pronunciation_sound_url=f"url{i+1}",
+                sound_url=f"url{i+1}",
             )
 
         return super().setUp()
@@ -47,14 +47,14 @@ class AssessmentServiceTest(TestCase):
         sentences = assessment.get_sentences()
         self.assertEqual(qset[0].sentence, sentences[0].sentence)
         self.assertEqual(
-            qset[0].pronunciation_sound_url, sentences[0].pronunciation_sound_url
+            qset[0].sound_url, sentences[0].sound_url
         )
         self.assertEqual("", sentences[0].file_path)
         self.assertEqual(False, sentences[0].is_answered)
 
         self.assertEqual(qset[1].sentence, sentences[1].sentence)
         self.assertEqual(
-            qset[1].pronunciation_sound_url, sentences[1].pronunciation_sound_url
+            qset[1].sound_url, sentences[1].sound_url
         )
         self.assertEqual("", sentences[1].file_path)
         self.assertEqual(False, sentences[1].is_answered)
@@ -80,14 +80,14 @@ class AssessmentServiceTest(TestCase):
 
         self.assertEqual(sentence1.sentence, sentences[0].sentence)
         self.assertEqual(
-            sentence1.pronunciation_sound_url, sentences[0].pronunciation_sound_url
+            sentence1.sound_url, sentences[0].sound_url
         )
         self.assertEqual(sentence1.file_path, sentences[0].file_path)
         self.assertEqual(sentence1.is_answered, sentences[0].is_answered)
 
         self.assertEqual(sentence2.sentence, sentences[1].sentence)
         self.assertEqual(
-            sentence2.pronunciation_sound_url, sentences[1].pronunciation_sound_url
+            sentence2.sound_url, sentences[1].sound_url
         )
         self.assertEqual(sentence2.file_path, sentences[1].file_path)
         self.assertEqual(sentence2.is_answered, sentences[1].is_answered)

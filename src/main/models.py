@@ -12,7 +12,7 @@ class SentenceManager(models.Manager):
 
 class Sentence(models.Model):
     sentence = models.CharField(max_length=200)
-    pronunciation_sound_url = models.CharField(max_length=1000)
+    sound_url = models.CharField(max_length=1000)
     objects = SentenceManager()
 
     def __str__(self):

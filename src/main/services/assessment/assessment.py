@@ -30,7 +30,7 @@ class Assessment:
         assessment.sentences = [
             Sentence(
                 sentence=sentence_model.sentence,
-                pronunciation_sound_url=sentence_model.pronunciation_sound_url,
+                sound_url=sentence_model.sound_url,
                 file_path="",
                 is_answered=False,
             )

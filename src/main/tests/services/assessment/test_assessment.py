@@ -6,7 +6,6 @@ from main.models import Sentence as SentenceModel
 
 
 class AssessmentTest(TestCase):
-
     def test_get_sentences(self):
         assessment = Assessment()
         sentence1 = Sentence(
@@ -27,7 +26,11 @@ class AssessmentTest(TestCase):
     def test_add_sentences(self):
         assessment = Assessment()
         sentence = Sentence(
-            "sentence", "http://example.com/test.mp3", "some/path/test.mp3", False, "answer"
+            "sentence",
+            "http://example.com/test.mp3",
+            "some/path/test.mp3",
+            False,
+            "answer",
         )
 
         assessment.add_sentence(sentence)
@@ -38,7 +41,11 @@ class AssessmentTest(TestCase):
     def test_to_dict(self):
         assessment = Assessment()
         sentence = Sentence(
-            "sentence", "http://example.com/test.mp3", "some/path/test.mp3", False, "answer"
+            "sentence",
+            "http://example.com/test.mp3",
+            "some/path/test.mp3",
+            False,
+            "answer",
         )
         assessment.add_sentence(sentence)
         assessment_dic = assessment.to_dict()
@@ -79,12 +86,11 @@ class AssessmentTest(TestCase):
         self.assertEqual(expected_sentence.is_answered, res_sentence.is_answered)
 
     def test_from_qset(self):
-
         expected_sentence1 = SentenceModel(sentence="test 1", sound_url="url1")
         expected_sentence2 = SentenceModel(sentence="test 2", sound_url="url2")
         mockQset = [
-                expected_sentence1,
-                expected_sentence2,
+            expected_sentence1,
+            expected_sentence2,
         ]
 
         assessment = Assessment.from_qset(mockQset)
@@ -103,5 +109,3 @@ class AssessmentTest(TestCase):
         self.assertEquals("", sentence2.file_path)
         self.assertEquals(False, sentence2.is_answered)
         self.assertEquals("", sentence2.answer)
-
-

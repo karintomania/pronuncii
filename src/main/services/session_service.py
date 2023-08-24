@@ -19,10 +19,8 @@ class SessionService:
     def has_assessment(self) -> Assessment:
         return self.session.get(self.ASSESSMENT_KEY) != None
 
-
     def get_index(self) -> int:
         return self.session[self.CURRENT_INDEX_KEY]
 
     def set_index(self, index: int):
         self.session[self.CURRENT_INDEX_KEY] = index
-

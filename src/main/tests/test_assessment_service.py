@@ -46,16 +46,12 @@ class AssessmentServiceTest(TestCase):
         assessment = assessment_service.assessment
         sentences = assessment.get_sentences()
         self.assertEqual(qset[0].sentence, sentences[0].sentence)
-        self.assertEqual(
-            qset[0].sound_url, sentences[0].sound_url
-        )
+        self.assertEqual(qset[0].sound_url, sentences[0].sound_url)
         self.assertEqual("", sentences[0].file_path)
         self.assertEqual(False, sentences[0].is_answered)
 
         self.assertEqual(qset[1].sentence, sentences[1].sentence)
-        self.assertEqual(
-            qset[1].sound_url, sentences[1].sound_url
-        )
+        self.assertEqual(qset[1].sound_url, sentences[1].sound_url)
         self.assertEqual("", sentences[1].file_path)
         self.assertEqual(False, sentences[1].is_answered)
 
@@ -79,16 +75,12 @@ class AssessmentServiceTest(TestCase):
         sentences = assessment.get_sentences()
 
         self.assertEqual(sentence1.sentence, sentences[0].sentence)
-        self.assertEqual(
-            sentence1.sound_url, sentences[0].sound_url
-        )
+        self.assertEqual(sentence1.sound_url, sentences[0].sound_url)
         self.assertEqual(sentence1.file_path, sentences[0].file_path)
         self.assertEqual(sentence1.is_answered, sentences[0].is_answered)
 
         self.assertEqual(sentence2.sentence, sentences[1].sentence)
-        self.assertEqual(
-            sentence2.sound_url, sentences[1].sound_url
-        )
+        self.assertEqual(sentence2.sound_url, sentences[1].sound_url)
         self.assertEqual(sentence2.file_path, sentences[1].file_path)
         self.assertEqual(sentence2.is_answered, sentences[1].is_answered)
 
@@ -139,9 +131,7 @@ class AssessmentServiceTest(TestCase):
         sentence1 = Sentence(
             "sentence1", "http://example.com/test1.mp3", "some/path/test1.mp3", True
         )
-        sentence2 = Sentence(
-            "sentence2", "http://example.com/test2.mp3", "", False
-        )
+        sentence2 = Sentence("sentence2", "http://example.com/test2.mp3", "", False)
         session_mock = {
             SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
             SessionService.CURRENT_INDEX_KEY: current_index,
@@ -155,4 +145,3 @@ class AssessmentServiceTest(TestCase):
         sentence = assessment_service.get_current_sentence()
         self.assertEqual(file_path, sentence.file_path)
         self.assertTrue(sentence.is_answered)
-

@@ -56,6 +56,7 @@ def finish_test(request):
 
     return redirect("main:result")
 
+
 def save_recording(request):
     form = FileForm(request.POST, request.FILES)
 
@@ -65,7 +66,9 @@ def save_recording(request):
 
     assessment_service = AssessmentService(request.session)
     session_key = request.session.session_key
-    file_path = save_file(request.FILES["recording"], session_key, assessment_service.get_current_index())
+    file_path = save_file(
+        request.FILES["recording"], session_key, assessment_service.get_current_index()
+    )
 
     assessment_service.add_file_path(file_path)
     return True
@@ -74,7 +77,11 @@ def save_recording(request):
 def result(request):
     assessment_service = AssessmentService(request.session)
 
-    return render(request, "main/result.html", {"results": assessment_service.assessment.get_sentences()})
+    return render(
+        request,
+        "main/result.html",
+        {"results": assessment_service.assessment.get_sentences()},
+    )
 
 
 def handle_uploaded_file(f):
@@ -82,4 +89,3 @@ def handle_uploaded_file(f):
     with open(path, "wb+") as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-

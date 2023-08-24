@@ -24,9 +24,7 @@ class SessionServiceTest(TestCase):
             index, sentence = ss.get_sentence_info()
             self.assertEquals(i, index)
             self.assertEquals(mockQset[i].sentence, sentence["sentence"])
-            self.assertEquals(
-                mockQset[i].sound_url, sentence["sound_url"]
-            )
+            self.assertEquals(mockQset[i].sound_url, sentence["sound_url"])
             ss.set_index(i + 1)
 
     def test_get_set_assessment(self) -> None:

@@ -5,7 +5,10 @@ from main.services.assessment.sentence import Sentence
 class SentenceTest(TestCase):
     def setUp(self):
         self.sentence = Sentence(
-            "Hello world!", "https://example.com/pronunciation.mp3", "some/path/example.txt", True
+            "Hello world!",
+            "https://example.com/pronunciation.mp3",
+            "some/path/example.txt",
+            True,
         )
 
     def test_to_dict(self):
@@ -29,9 +32,6 @@ class SentenceTest(TestCase):
         result = Sentence.from_dict(sentence_dict)
 
         self.assertEqual(sentence_dict["sentence"], result.sentence)
-        self.assertEqual(
-            sentence_dict["sound_url"],
-            result.sound_url
-        )
+        self.assertEqual(sentence_dict["sound_url"], result.sound_url)
         self.assertEqual(sentence_dict["file_path"], result.file_path)
         self.assertEqual(sentence_dict["is_answered"], result.is_answered)

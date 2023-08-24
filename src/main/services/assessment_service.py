@@ -39,4 +39,3 @@ class AssessmentService:
 
     def finish_assessment(self):
         pass
-

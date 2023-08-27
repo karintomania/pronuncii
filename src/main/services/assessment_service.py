@@ -38,4 +38,4 @@ class AssessmentService:
         self.session_service.set_index(index)
 
     def finish_assessment(self):
-        pass
+        self.session_service.reset_session()

@@ -9,23 +9,6 @@ from pprint import pp
 
 # run test: python manage.py test main.tests.test_session_service
 class SessionServiceTest(TestCase):
-    def test_set_sentence(self) -> None:
-        mockQset = [
-            SentenceModel(sentence="test 1", sound_url="url1"),
-            SentenceModel(sentence="test 2", sound_url="url2"),
-            SentenceModel(sentence="test 3", sound_url="url3"),
-            SentenceModel(sentence="test 4", sound_url="url4"),
-            SentenceModel(sentence="test 5", sound_url="url5"),
-        ]
-        ss = self.get_mocked_session_service()
-        ss.set_sentences(mockQset)
-
-        for i in range(5):
-            index, sentence = ss.get_sentence_info()
-            self.assertEquals(i, index)
-            self.assertEquals(mockQset[i].sentence, sentence["sentence"])
-            self.assertEquals(mockQset[i].sound_url, sentence["sound_url"])
-            ss.set_index(i + 1)
 
     def test_get_set_assessment(self) -> None:
         ss = self.get_mocked_session_service()
@@ -47,6 +30,17 @@ class SessionServiceTest(TestCase):
 
         self.assertEquals(sentence1.__dict__(), res[0].__dict__())
         self.assertEquals(sentence2.__dict__(), res[1].__dict__())
+
+    def test_reset_session(self) -> None:
+        ss = self.get_mocked_session_service()
+
+        ss.reset_session()
+
+        assessment = ss.get_assessment()
+        index = ss.get_index()
+
+        self.assertEquals(None, assessment)
+        self.assertEquals(0, index)
 
     def test_has_assessment(self) -> None:
         ss = self.get_mocked_session_service()

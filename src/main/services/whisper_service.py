@@ -1,3 +1,8 @@
-class WhisperService:
-    def text_to_chat(self, filePath: str) -> str:
-        return "test result"
+from typing import List
+from main.services.assessment.sentence import Sentence
+
+def set_answers(sentences: List[Sentence]) -> None:
+
+    for sentence in sentences:
+        sentence.answer = "test answer"
+

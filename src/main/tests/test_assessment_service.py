@@ -145,3 +145,24 @@ class AssessmentServiceTest(TestCase):
         sentence = assessment_service.get_current_sentence()
         self.assertEqual(file_path, sentence.file_path)
         self.assertTrue(sentence.is_answered)
+
+    def test_finish_assessment(self):
+        current_index = 1
+        sentence1 = Sentence(
+            "sentence1", "http://example.com/test1.mp3", "some/path/test1.mp3", True
+        )
+        sentence2 = Sentence(
+            "sentence2", "http://example.com/test2.mp3", "some/path/test2.mp3", True
+        )
+        # set sentence to session
+        session_mock = {
+            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
+            SessionService.CURRENT_INDEX_KEY: current_index,
+        }
+
+        assessment_service = AssessmentService(session_mock)
+
+        assessment_service.finish_assessment()
+        session_service = assessment_service.session_service
+        self.assertEqual(None, session_service.get_assessment())
+        self.assertEqual(0, session_service.get_index())

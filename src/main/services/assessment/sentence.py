@@ -26,3 +26,6 @@ class Sentence:
             is_answered=q_dict["is_answered"],
             answer=q_dict["answer"],
         )
+
+    def __str__(self):
+        return f"{{ sentence: {self.sentence}, sound_url: {self.sound_url}, file_path: {self.file_path}, is_answered: {self.is_answered}, answer: {self.answer}}}"

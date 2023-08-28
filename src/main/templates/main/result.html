@@ -4,8 +4,10 @@
 <h1>Result</h1>
 {% for result in results %}
 <ul>
+<li>{{ result }}</li>
 <li>{{ result.sentence }}</li>
-<li>{{ result.sound_path }}</li>
+<li>{{ result.file_path }}</li>
+<li>{{ result.answer }}</li>
 </ul>
 {% endfor %}
 <a href="{% url 'main:index' %}">back</a>

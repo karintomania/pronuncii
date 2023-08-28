@@ -4,8 +4,14 @@
 <div x-data="{
         uiState:'start',
         currentIndex:{{current_index}},
-        sentenceCount:{{sentence_count}}
+        sentenceCount:{{sentence_count}},
+        ...mainInit()
     }">
+    <button
+        x-on:click="console.log(testVar)"
+        >
+            click me
+    </button>
     <button
         id="record"
         x-on:click="uiState='recording'"

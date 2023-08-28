@@ -26,5 +26,12 @@ services:
         test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
         timeout: 5s
         retries: 10
+
+  pronuncii-front:
+    container_name: pronuncii-front
+    build:
+      dockerfile: ./Dockerfile-front
+    volumes:
+      - "./src/:/app/"
 volumes:
   pronuncii-db:

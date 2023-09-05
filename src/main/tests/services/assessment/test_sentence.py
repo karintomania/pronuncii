@@ -9,6 +9,7 @@ class SentenceTest(TestCase):
             "https://example.com/pronunciation.mp3",
             "some/path/example.txt",
             True,
+            "test answer",
         )
 
     def test_to_dict(self):
@@ -17,9 +18,10 @@ class SentenceTest(TestCase):
             "sound_url": "https://example.com/pronunciation.mp3",
             "file_path": "some/path/example.txt",
             "is_answered": True,
+            "answer": "test answer",
         }
 
-        self.assertEqual(expected, self.sentence.__dict__())
+        self.assertEqual(expected, self.sentence.to_dict())
 
     def test_from_dict(self):
         sentence_dict = {
@@ -27,6 +29,7 @@ class SentenceTest(TestCase):
             "sound_url": "https://example.com/pronunciation.mp3",
             "file_path": "some/path/example.txt",
             "is_answered": True,
+            "answer": "test answer",
         }
 
         result = Sentence.from_dict(sentence_dict)
@@ -35,3 +38,4 @@ class SentenceTest(TestCase):
         self.assertEqual(sentence_dict["sound_url"], result.sound_url)
         self.assertEqual(sentence_dict["file_path"], result.file_path)
         self.assertEqual(sentence_dict["is_answered"], result.is_answered)
+        self.assertEqual(sentence_dict["answer"], result.answer)

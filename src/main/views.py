@@ -19,7 +19,7 @@ def index(request):
     return render(request, "main/index.html")
 
 
-def test(request):
+def assessment(request):
     # get sentence
     assessment_service = AssessmentService(request.session)
 
@@ -29,11 +29,11 @@ def test(request):
     # show one question
     return render(
         request,
-        "main/test.html",
+        "main/assessment.html",
         {
             "sentence": assessment_service.get_current_sentence(),
             "current_index": assessment_service.get_current_index(),
-            "sentence_count": Sentence.objects.TEST_SENTENCES_COUNT,
+            "sentence_count": Sentence.objects.ASSESSMENT_SENTENCES_COUNT,
             "form": form,
         },
     )
@@ -42,10 +42,10 @@ def test(request):
 def next(request):
     is_success = save_recording(request)
 
-    return redirect("main:test")
+    return redirect("main:assessment")
 
 
-def finish_test(request):
+def finish_assessment(request):
     is_success = save_recording(request)
 
     return redirect("main:result")

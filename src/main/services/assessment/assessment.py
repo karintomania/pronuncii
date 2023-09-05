@@ -13,7 +13,7 @@ class Assessment:
         self.sentences.append(sentence)
 
     def to_dict(self):
-        return [sentence.__dict__() for sentence in self.sentences]
+        return [sentence.to_dict() for sentence in self.sentences]
 
     @classmethod
     def from_dict(cls, sentences_dic):

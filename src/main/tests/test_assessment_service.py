@@ -15,19 +15,19 @@ from main.services.session_service import SessionService
 class AssessmentServiceTest(TestCase):
     def setUp(self) -> None:
         # Overwrite the sentences count
-        SentenceModel.objects.TEST_SENTENCES_COUNT = 2
+        SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT = 2
 
         # Create mock function as random qset is hard to test
         def fake_get_sentences_for_test() -> models.QuerySet:
             return (
                 SentenceModel.objects.all()
                 .only("id")
-                .order_by("id")[: SentenceModel.objects.TEST_SENTENCES_COUNT]
+                .order_by("id")[: SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT]
             )
 
         SentenceModel.objects.get_sentences_for_test = fake_get_sentences_for_test
 
-        self.sentence_count = SentenceModel.objects.TEST_SENTENCES_COUNT
+        self.sentence_count = SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT
         sentence_count = self.sentence_count
 
         for i in range(sentence_count + 1):
@@ -66,7 +66,7 @@ class AssessmentServiceTest(TestCase):
         )
         # set sentence to session
         session_mock = {
-            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
+            SessionService.ASSESSMENT_KEY: [sentence1.to_dict(), sentence2.to_dict()],
             SessionService.CURRENT_INDEX_KEY: 3,
         }
         assessment_service = AssessmentService(session_mock)
@@ -98,7 +98,7 @@ class AssessmentServiceTest(TestCase):
         )
         # set sentence to session
         session_mock = {
-            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
+            SessionService.ASSESSMENT_KEY: [sentence1.to_dict(), sentence2.to_dict()],
             SessionService.CURRENT_INDEX_KEY: current_index,
         }
 
@@ -117,7 +117,7 @@ class AssessmentServiceTest(TestCase):
         )
         # set sentence to session
         session_mock = {
-            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
+            SessionService.ASSESSMENT_KEY: [sentence1.to_dict(), sentence2.to_dict()],
             SessionService.CURRENT_INDEX_KEY: current_index,
         }
 
@@ -133,7 +133,7 @@ class AssessmentServiceTest(TestCase):
         )
         sentence2 = Sentence("sentence2", "http://example.com/test2.mp3", "", False)
         session_mock = {
-            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
+            SessionService.ASSESSMENT_KEY: [sentence1.to_dict(), sentence2.to_dict()],
             SessionService.CURRENT_INDEX_KEY: current_index,
         }
 
@@ -156,7 +156,7 @@ class AssessmentServiceTest(TestCase):
         )
         # set sentence to session
         session_mock = {
-            SessionService.ASSESSMENT_KEY: [sentence1.__dict__(), sentence2.__dict__()],
+            SessionService.ASSESSMENT_KEY: [sentence1.to_dict(), sentence2.to_dict()],
             SessionService.CURRENT_INDEX_KEY: current_index,
         }
 

@@ -28,8 +28,8 @@ class SessionServiceTest(TestCase):
         result_assessment = ss.get_assessment()
         res = result_assessment.get_sentences()
 
-        self.assertEquals(sentence1.__dict__(), res[0].__dict__())
-        self.assertEquals(sentence2.__dict__(), res[1].__dict__())
+        self.assertEquals(sentence1.to_dict(), res[0].to_dict())
+        self.assertEquals(sentence2.to_dict(), res[1].to_dict())
 
     def test_reset_session(self) -> None:
         ss = self.get_mocked_session_service()

@@ -8,13 +8,13 @@ class Sentence:
         self.is_answered = is_answered
         self.answer = answer
 
-    def __dict__(self) -> dict:
+    def to_dict(self) -> dict:
         return {
             "sentence": self.sentence,
             "sound_url": self.sound_url,
             "file_path": self.file_path,
             "is_answered": self.is_answered,
-            "answer": self.is_answered,
+            "answer": self.answer,
         }
 
     @classmethod

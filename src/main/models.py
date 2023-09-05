@@ -3,11 +3,11 @@ from django.db.models.query import QuerySet
 
 
 class SentenceManager(models.Manager):
-    # number of the sentences for one test
-    TEST_SENTENCES_COUNT = 2
+    # number of the sentences for one assessment
+    ASSESSMENT_SENTENCES_COUNT = 2
 
-    def get_sentences_for_test(self) -> models.QuerySet:
-        return self.all().only("id").order_by("?")[: self.TEST_SENTENCES_COUNT]
+    def get_sentences_for_assessment(self) -> models.QuerySet:
+        return self.all().only("id").order_by("?")[: self.ASSESSMENT_SENTENCES_COUNT]
 
 
 class Sentence(models.Model):

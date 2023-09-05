@@ -1,0 +1,31 @@
+@use 'vars'
+
+$container-sm: 540px
+$container-md: 720px
+$container-lg: 960px
+$container-xl: 1140px
+$container-xxl: 1320px
+
+.base-container
+  width: 100%
+  padding: 1rem 2rem
+
+.container
+  @extend .base-container
+  @media (min-width: vars.$bp-sm) and (max-width: vars.$bp-md)
+    width: $container-sm
+  @media (min-width: vars.$bp-md) and (max-width: vars.$bp-lg)
+    width: $container-md
+  @media (min-width: vars.$bp-lg) and (max-width: vars.$bp-xl)
+    width: $container-lg
+  @media (min-width: vars.$bp-xl) and (max-width: vars.$bp-xxl)
+    width: $container-xl
+  @media (min-width: vars.$bp-xxl)
+    width: $container-xxl
+
+.container-lg
+  @extend .base-container
+  @media (min-width: vars.$bp-xl) and (max-width: vars.$bp-xxl)
+    width: $container-xl
+  @media (min-width: vars.$bp-xxl)
+    width: $container-xxl

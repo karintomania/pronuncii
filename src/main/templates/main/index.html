@@ -1,5 +1,18 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<a href="{% url 'main:test' %}">test</a>
+{%load static %}
+<div class="main-index">
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero__title">Test your pronunciation with AI</h1>
+            <div class="hero__lead">
+                <p>Not confident on your pronunciation?</p>
+                <p>Pronuncii helps you to identify your English skill brah brah</p>
+            </div>
+        </div>
+        <a class="hero__cta button-accent" href="{% url 'main:test' %}">Take Test</a>
+        <img class="hero__image container-lg" src="{% static "img/main/index/hero.svg" %}">
+    </section>
+</div>
 {% endblock content %}

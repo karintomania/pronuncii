@@ -1,0 +1,32 @@
+@use 'vars'
+
+@mixin font-header
+  font-family: 'Jaldi', sans-serif
+  font-weight: 700
+
+.button
+  display: inline-block
+  text-align: center
+  white-space: nowrap
+  border: 1px solid transparent
+  padding: 0.4rem 1.5rem
+  font-size: 1rem
+  border-radius: 0.4rem
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
+  text-decoration: none
+  @include font-header
+
+.button-primary
+  @extend .button
+  color: vars.$color-white
+  background-color: vars.$color-primary
+
+.button-secondary
+  @extend .button
+  color: vars.$color-white
+  background-color: vars.$color-secondary
+
+.button-accent
+  @extend .button
+  color: vars.$color-white
+  background-color: vars.$color-accent

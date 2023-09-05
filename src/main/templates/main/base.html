@@ -8,11 +8,11 @@
 
     {% load static %}
     <script src="{% static 'index-bundle.js' %}"></script>
+    <!-- <link rel="stylesheet" href="{% static 'fonts/Jaldi-Bold.ttf' %}"> -->
+    <!-- <link rel="stylesheet" href="{% static 'fonts/Jaldi-Regular.ttf' %}"> -->
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
-<h1>
-    test
-</h1>
+{% include "main/header.html" %}
 <div>
 {% block content %}
     test content

@@ -13,7 +13,7 @@ class AssessmentService:
             self.index = self.session_service.get_index()
 
         else:
-            qset = SentenceModel.objects.get_sentences_for_test()
+            qset = SentenceModel.objects.get_sentences_for_assessment()
             self.assessment = Assessment.from_qset(qset)
             self.session_service.set_assessment(self.assessment)
 

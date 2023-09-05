@@ -18,14 +18,14 @@ class AssessmentServiceTest(TestCase):
         SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT = 2
 
         # Create mock function as random qset is hard to test
-        def fake_get_sentences_for_test() -> models.QuerySet:
+        def fake_get_sentences_for_assessment() -> models.QuerySet:
             return (
                 SentenceModel.objects.all()
                 .only("id")
                 .order_by("id")[: SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT]
             )
 
-        SentenceModel.objects.get_sentences_for_test = fake_get_sentences_for_test
+        SentenceModel.objects.get_sentences_for_assessment = fake_get_sentences_for_assessment
 
         self.sentence_count = SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT
         sentence_count = self.sentence_count
@@ -39,7 +39,7 @@ class AssessmentServiceTest(TestCase):
         return super().setUp()
 
     def test_init_sets_assessment_from_db(self) -> None:
-        qset = SentenceModel.objects.get_sentences_for_test()
+        qset = SentenceModel.objects.get_sentences_for_assessment()
         session_mock = {}
         assessment_service = AssessmentService(session_mock)
 

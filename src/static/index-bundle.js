@@ -16,7 +16,27 @@
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! alpinejs */ \"./node_modules/alpinejs/dist/module.esm.js\");\n\n\nwindow.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_0__[\"default\"]\n \nalpinejs__WEBPACK_IMPORTED_MODULE_0__[\"default\"].start()\n\nfunction mainInit(){\n    return {\n        testVar: \"aaaa\"\n    }\n};\n \nwindow.mainInit = mainInit\n\n\n//# sourceURL=webpack://pronuncii/./js/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! alpinejs */ \"./node_modules/alpinejs/dist/module.esm.js\");\n/* harmony import */ var _main_assessment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./main/assessment */ \"./js/main/assessment.js\");\n/* harmony import */ var _main_test__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./main/test */ \"./js/main/test.js\");\n\nwindow.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_0__[\"default\"]\n\n;\nwindow.assessmentInit = _main_assessment__WEBPACK_IMPORTED_MODULE_1__[\"default\"]\n;\nwindow.testInit = _main_test__WEBPACK_IMPORTED_MODULE_2__[\"default\"]\n\nalpinejs__WEBPACK_IMPORTED_MODULE_0__[\"default\"].start()\n\n\n//# sourceURL=webpack://pronuncii/./js/index.js?");
+
+/***/ }),
+
+/***/ "./js/main/assessment.js":
+/*!*******************************!*\
+  !*** ./js/main/assessment.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   assessmentInit: () => (/* binding */ assessmentInit),\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst isAudioEnabled = navigator.mediaDevices.getUserMedia? true:false;\n\nconst assessmentInit = () => {\n\n    function mediaRecorderClosure(){\n        let mediaRecorder;\n        let chunks = [];\n        let audio;\n        let recordFile;\n\n        function init(stream){\n            mediaRecorder = new MediaRecorder(stream);\n\n            mediaRecorder.onstop = function(e){\n\n              audio.controls = true;\n              const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });\n              chunks = [];\n              const audioURL = window.URL.createObjectURL(blob);\n              audio.src = audioURL;\n\n              let container = new DataTransfer();\n              let file = new File([blob], \"sound.wav\",{type:\"audio/wav\"});\n              container.items.add(file);\n              recordFile.files = container.files;\n\n            }\n\n            mediaRecorder.ondataavailable = function(e) {\n              chunks.push(e.data);\n            }\n        }\n\n        function onStop(){\n            audio = document.getElementById(\"audioClip\");\n            mediaRecorder.stop();\n        }\n\n        function onStart(audioElm, fileElm){\n            audio = audioElm;\n            recordFile = fileElm;\n            mediaRecorder.start();\n        }\n\n        return {\n            init: init,\n            onStop: onStop,\n            onStart: onStart,\n        };\n\n    }\n\n    const {init, onStop, onStart} = mediaRecorderClosure();\n\n    function onError(err) {\n     console.log('The following error occured: ' + err);\n    }\n\n  navigator.mediaDevices\n        .getUserMedia({ audio: true })\n        .then(init, onError);\n\n    return {\n        onStart: onStart,\n        onStop: onStop,\n    };\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (assessmentInit);\n\n\n//# sourceURL=webpack://pronuncii/./js/main/assessment.js?");
+
+/***/ }),
+
+/***/ "./js/main/test.js":
+/*!*************************!*\
+  !*** ./js/main/test.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   testInit: () => (/* binding */ testInit)\n/* harmony export */ });\nconst testInit = () => {\n    console.log('test init');\n    return {\n        testVar: \"a\",\n    };\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (testInit);\n\n\n//# sourceURL=webpack://pronuncii/./js/main/test.js?");
 
 /***/ }),
 

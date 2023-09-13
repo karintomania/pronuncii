@@ -1,29 +1,50 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<div x-data="{
-        uiState:'start',
+<div
+    x-data="{
+        ...assessmentInit(),
+        uiState: 'start',
         currentIndex:{{current_index}},
         sentenceCount:{{sentence_count}},
-        ...mainInit()
-    }">
+        isLastSentence: {{current_index}} === {{sentence_count}}-1,
+    }"
+
+    >
     <button
         id="record"
-        x-on:click="uiState='recording'"
-        x-show="uiState=='start'"
+        class="button-accent"
+        x-on:click="
+            onStart(
+                document.getElementById('audioClip'),
+                document.getElementById('id_recording')
+            );
+            uiState = 'recording';
+            "
+        x-show="uiState==='start'"
         >
-            record
+            start recording
     </button>
     <button
         id="stop"
-        x-on:click="uiState='recorded'"
-        x-show="uiState=='recording'"
+        x-on:click="
+            onStop()
+            uiState = 'recorded';
+        "
+        x-show="uiState==='recording'"
         >
             stop recording
     </button>
     <button
         id="record-again"
-        x-show="uiState=='recorded'"
+        x-on:click="
+            onStart(
+                document.getElementById('audioClip'),
+                document.getElementById('id_recording')
+            );
+            uiState = 'recording';
+                  "
+        x-show="uiState==='recorded'"
         >
             record again
     </button>
@@ -31,23 +52,32 @@
     <li>{{ sentence.sentence }}</a></li>
     <li>{{ sentence.sound_path }}</a></li>
     <li x-text="uiState"></li>
-    <form action="{% url  'main:next' %}" method="POST" enctype="multipart/form-data">
+    <form
+        :action="isLastSentence ?
+                '{% url  'main:finish_assessment' %}'
+                :'{% url  'main:next' %}'"
+        method="POST"
+        enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" 
-            x-show="uiState=='recorded' && currentIndex!==sentenceCount-1">
+        <input
+            type="submit" 
+            x-show="uiState==='recorded'">
     </form>
-    <div class="sound-clips"></div>
-    <a
-        href="{% url 'main:finish_assessment' %}"
-        x-show="currentIndex == sentenceCount-1 && uiState == 'recorded'"
-    >
-        result
-    </a>
+    <div class="sound-clips">
+        <article>
+            <audio
+                id="audioClip"
+                >
+
+            </audio>
+        </article>
+    </div>
 </div>
 {% endblock content %}
 
 {% block script %}
-{% load static %}
-<script src="{% static 'main/test.js' %}"></script>
+<script>
+
+</script>
 {% endblock %}

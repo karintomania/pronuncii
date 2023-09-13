@@ -7,9 +7,7 @@
     {% endcomment %}
 
     {% load static %}
-    <script src="{% static 'index-bundle.js' %}"></script>
-    <!-- <link rel="stylesheet" href="{% static 'fonts/Jaldi-Bold.ttf' %}"> -->
-    <!-- <link rel="stylesheet" href="{% static 'fonts/Jaldi-Regular.ttf' %}"> -->
+    <script defer src="{% static 'index-bundle.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 {% include "main/header.html" %}

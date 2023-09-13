@@ -1,13 +1,9 @@
 import Alpine from 'alpinejs'
-
 window.Alpine = Alpine
- 
-Alpine.start()
 
-function mainInit(){
-    return {
-        testVar: "aaaa"
-    }
-};
- 
-window.mainInit = mainInit
+import assessmentInit from './main/assessment'
+window.assessmentInit = assessmentInit
+import testInit from './main/test'
+window.testInit = testInit
+
+Alpine.start()

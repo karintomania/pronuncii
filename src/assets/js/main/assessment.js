@@ -1,69 +1,37 @@
+import MediaRecorderService from "./MediaRecorderService";
+
 const isAudioEnabled = navigator.mediaDevices.getUserMedia? true:false;
 
-export const assessmentInit = () => {
+export default (audio, recordFile) => {
 
-    function mediaRecorderClosure(){
-        let mediaRecorder;
-        let chunks = [];
-        let audio;
-        let recordFile;
+    let mediaRecorder;
+    let chunks = [];
 
-        function init(stream){
-            mediaRecorder = new MediaRecorder(stream);
+    const handleAudioUrl = (blob) => {
 
-            mediaRecorder.onstop = function(e){
+          const url = window.URL.createObjectURL(blob);
+          audio.controls = true;
+          audio.src = url;
+    };
+    const handleRecordFile = (files) => {
+          recordFile.files = files;
+    };
 
-              audio.controls = true;
-              const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-              chunks = [];
-              const audioURL = window.URL.createObjectURL(blob);
-              audio.src = audioURL;
+    const mrs = new MediaRecorderService(
+        handleAudioUrl, handleRecordFile
+    );
 
-              let container = new DataTransfer();
-              let file = new File([blob], "sound.wav",{type:"audio/wav"});
-              container.items.add(file);
-              recordFile.files = container.files;
-
-            }
-
-            mediaRecorder.ondataavailable = function(e) {
-              chunks.push(e.data);
-            }
-        }
-
-        function onStop(){
-            audio = document.getElementById("audioClip");
-            mediaRecorder.stop();
-        }
-
-        function onStart(audioElm, fileElm){
-            audio = audioElm;
-            recordFile = fileElm;
-            mediaRecorder.start();
-        }
-
-        return {
-            init: init,
-            onStop: onStop,
-            onStart: onStart,
-        };
-
+    const onStop = () =>{
+        mrs.stop();
     }
 
-    const {init, onStop, onStart} = mediaRecorderClosure();
-
-    function onError(err) {
-     console.log('The following error occured: ' + err);
+    const onStart = () => {
+        mrs.start();
     }
-
-  navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then(init, onError);
 
     return {
-        onStart: onStart,
         onStop: onStop,
+        onStart: onStart,
     };
-};
 
-export default assessmentInit;
+};

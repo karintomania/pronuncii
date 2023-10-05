@@ -1,9 +1,7 @@
-import Alpine from 'alpinejs'
-window.Alpine = Alpine
+import Alpine from 'alpinejs';
+window.Alpine = Alpine;
 
-import assessmentInit from './main/assessment'
-window.assessmentInit = assessmentInit
-import testInit from './main/test'
-window.testInit = testInit
+import assessment from './main/assessment';
+Alpine.data('assessment', assessment);
 
-Alpine.start()
+Alpine.start();

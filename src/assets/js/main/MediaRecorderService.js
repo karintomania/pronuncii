@@ -8,30 +8,33 @@ class MediaRecorderService{
             .getUserMedia({ audio: true })
             .then(
                 (stream) => {
-                    this.init(stream, handleAudioUrl, handleRecordFile)
-                }, this.onError);
+                    this.#init(stream, handleAudioUrl, handleRecordFile)
+                }, this.#onError);
 
     }
 
-
-    init(stream, handleAudioUrl, handleRecordFile){
+    #init(stream, handleAudioUrl, handleRecordFile){
         this.#mediaRecorder = new MediaRecorder(stream);
 
-        let chunks = this.chunks;
-        this.#mediaRecorder.ondataavailable = function(e) {
-            chunks.push(e.data);
-        }
-
-        this.setOnStop(handleAudioUrl, handleRecordFile);
+        this.#setOndataavailable(handleAudioUrl, handleRecordFile);
+        this.#setOnStop(handleAudioUrl, handleRecordFile);
     }
 
-    onError(err) {
+    #onError(err) {
         console.log('The following error occured: ' + err);
     }
 
-    setOnStop(handleAudioUrl, handleRecordFile){
+    #setOndataavailable(){
 
-            this.#mediaRecorder.onstop = function(e){
+        this.#mediaRecorder.ondataavailable = (e) => {
+            this.chunks.push(e.data);
+        }
+
+    }
+
+    #setOnStop(handleAudioUrl, handleRecordFile){
+
+            this.#mediaRecorder.onstop = (e) => {
 
                 // create blob
               const blob = new Blob(this.chunks, { 'type' : 'audio/ogg; codecs=opus' });

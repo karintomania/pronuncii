@@ -4,11 +4,7 @@ const isAudioEnabled = navigator.mediaDevices.getUserMedia? true:false;
 
 export default (audio, recordFile) => {
 
-    let mediaRecorder;
-    let chunks = [];
-
     const handleAudioUrl = (blob) => {
-
           const url = window.URL.createObjectURL(blob);
           audio.controls = true;
           audio.src = url;

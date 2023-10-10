@@ -1,7 +1,8 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<div
+<section
+    class="assessment"
     x-data="{
         ...assessment(
             document.getElementById('audioClip'), 
@@ -12,65 +13,73 @@
         sentenceCount:{{sentence_count}},
         isLastSentence: {{current_index}} === {{sentence_count}}-1,
     }"
-
     >
-    <button
-        id="record"
-        class="button-accent"
-        x-on:click="
-            onStart();
-            uiState = 'recording';
-            "
-        x-show="uiState==='start'"
-        >
-            start recording
-    </button>
-    <button
-        id="stop"
-        x-on:click="
-            onStop()
-            uiState = 'recorded';
-        "
-        x-show="uiState==='recording'"
-        >
-            stop recording
-    </button>
-    <button
-        id="record-again"
-        x-on:click="
-            onStart();
-            uiState = 'recording';
-            "
-        x-show="uiState==='recorded'"
-        >
-            record again
-    </button>
-    <li>{{ sentence.id }}</a></li>
-    <li>{{ sentence.sentence }}</a></li>
-    <li>{{ sentence.sound_path }}</a></li>
-    <li x-text="uiState"></li>
-    <form
-        :action="isLastSentence ?
-                '{% url  'main:finish_assessment' %}'
-                :'{% url  'main:next' %}'"
-        method="POST"
-        enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form }}
-        <input
-            type="submit" 
-            x-show="uiState==='recorded'">
-    </form>
-    <div class="sound-clips">
-        <article>
-            <audio
-                id="audioClip"
+    <div class="container">
+        <div class="assessment-card">
+            <div class="__question-index">1</div>
+            <p class="__instruction">Read the sentence out loud:</p>
+            <button
+                id="record"
+                class="button-accent __record-button"
+                x-on:click="
+                    onStart();
+                    uiState = 'recording';
+                    "
+                x-show="uiState==='start'"
                 >
+                    <i class="fa-solid fa-microphone"></i>
+                    &nbsp;Record Pronunciation
+            </button>
+            <button
+                id="stop"
+                x-on:click="
+                    onStop()
+                    uiState = 'recorded';
+                "
+                x-show="uiState==='recording'"
+                >
+                    stop recording
+            </button>
+            <button
+                id="record-again"
+                x-on:click="
+                    onStart();
+                    uiState = 'recording';
+                    "
+                x-show="uiState==='recorded'"
+                >
+                    record again
+            </button>
+            <ul>
+                <li>{{ sentence }}</a></li>
+                <li>{{ sentence.sentence }}</a></li>
+                <li>{{ sentence.sound_path }}</a></li>
+                <li x-text="uiState"></li>
+            </ul>
+            <form
+                :action="isLastSentence ?
+                        '{% url  'main:finish_assessment' %}'
+                        :'{% url  'main:next' %}'"
+                method="POST"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <input
+                    type="submit" 
+                    x-show="uiState==='recorded'">
+            </form>
+            <div class="sound-clips">
+                <article>
+                    <audio
+                        id="audioClip"
+                        >
 
-            </audio>
-        </article>
+                    </audio>
+                </article>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 {% endblock content %}
 
 {% block script %}

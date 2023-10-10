@@ -1,0 +1,50 @@
+@use '../vars'
+@use '../common'
+
+
+.assessment
+  display: flex
+  flex-direction: column
+  align-items: center
+ 
+  .assessment-card-base
+    position: relative
+    display: flex
+    flex-direction: column
+    align-items: center
+    background-color: vars.$color-white
+    padding: 3rem
+    margin: 4rem 1.5rem 0rem
+
+
+  .assessment-card
+    @extend .assessment-card-base
+    @media (min-width: vars.$bp-md) and (max-width: vars.$bp-lg)
+      margin: 4rem 4rem 0rem
+    @media (min-width: vars.$bp-lg)
+      margin: 4rem 8rem 0rem
+
+    .__question-index
+      // position
+      position: absolute
+      left: -1rem
+      top: -2rem
+      // background circle
+      color: vars.$color-white
+      font-size: 2rem
+      background: vars.$color-secondary
+      width: 4rem
+      height: 4rem
+      border-radius: 50%
+      text-align: center
+      line-height: 4rem
+      filter: drop-shadow(0.3rem 0.2rem 0rem vars.$color-primary)
+      @include common.font-header
+
+    .__instruction
+      color: vars.$color-primary
+      font-size: 2rem
+      @include common.font-header
+
+    .record-button
+      font-size: 1.5rem

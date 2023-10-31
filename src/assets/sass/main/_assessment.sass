@@ -13,7 +13,7 @@
     flex-direction: column
     align-items: center
     background-color: vars.$color-white
-    padding: 3rem
+    padding: 1rem 3rem
     margin: 4rem 1.5rem 0rem
 
 
@@ -41,10 +41,61 @@
       filter: drop-shadow(0.3rem 0.2rem 0rem vars.$color-primary)
       @include common.font-header
 
+    .__instruction_box
+      width: 100%
+      margin-bottom: 2rem
+
     .__instruction
       color: vars.$color-primary
       font-size: 2rem
       @include common.font-header
 
-    .record-button
+    .__recording_progress
+      color: vars.$color-primary
+      font-size: 2.5rem
+      @include common.font-header
+
+    .__sentence_box
+      background: vars.$color-light-gray
+      border-radius: 10px
+      width: 100%
+      padding: 1rem 1rem
       font-size: 1.5rem
+      margin-bottom: 2rem
+      box-sizing: border-box
+
+    .__action_button
+      display: block 
+      width: 100%
+      font-size: 1.5rem
+      margin-bottom: 1rem
+
+    form
+      width: 100%
+
+    .form_wrapper
+      display: none
+
+    .player-block
+      margin-top: 1.5rem
+      display: flex
+      flex-direction: column
+      gap: 1rem
+      align-items: center
+      justify-content: center
+      width: 100%
+      box-sizing: border-box
+
+    .__player_instruction
+      width: 100%
+      font-size: 1.2rem
+
+    .__player
+      width: 100%
+      text-align: center
+      background-color: vars.$color-base
+      border-radius: 10px
+
+      audio::-webkit-media-controls-panel
+        background-color: vars.$color-base
+

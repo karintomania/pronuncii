@@ -16,11 +16,18 @@
     >
     <div class="container">
         <div class="assessment-card">
-            <div class="__question-index">1</div>
-            <p class="__instruction">Read the sentence out loud:</p>
+            <div class="__question-index">{{current_index|add:1}}</div>
+            <div class="__instruction_box">
+                <p class="__instruction">
+                    Read the sentence out loud:
+                </p>
+            </div>
+            <div class="__sentence_box">
+                <p>{{sentence.sentence}}</p>
+            </div>
             <button
                 id="record"
-                class="button-accent __record-button"
+                class="button-accent __action_button"
                 x-on:click="
                     onStart();
                     uiState = 'recording';
@@ -30,32 +37,35 @@
                     <i class="fa-solid fa-microphone"></i>
                     &nbsp;Record Pronunciation
             </button>
+            <div
+                class="__recording_progress"
+                x-show="uiState==='recording'">
+                Recording&nbsp;
+                <i class="fa-solid fa-signal fa-beat-fade"></i>
+            </div>
             <button
                 id="stop"
+                class="button-primary __action_button"
                 x-on:click="
                     onStop()
                     uiState = 'recorded';
                 "
                 x-show="uiState==='recording'"
                 >
-                    stop recording
+                    <i class="fa-solid fa-circle-stop"></i>
+                    &nbsp;Stop Recording
             </button>
             <button
                 id="record-again"
+                class="button-accent __action_button"
                 x-on:click="
                     onStart();
-                    uiState = 'recording';
-                    "
+                    uiState = 'recording';"
                 x-show="uiState==='recorded'"
                 >
-                    record again
+                    <i class="fa-solid fa-microphone"></i>
+                    &nbsp;Record Again
             </button>
-            <ul>
-                <li>{{ sentence }}</a></li>
-                <li>{{ sentence.sentence }}</a></li>
-                <li>{{ sentence.sound_path }}</a></li>
-                <li x-text="uiState"></li>
-            </ul>
             <form
                 :action="isLastSentence ?
                         '{% url  'main:finish_assessment' %}'
@@ -63,17 +73,28 @@
                 method="POST"
                 enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form }}
-                <input
+                <div class="form_wrapper">
+                    {{ form }}
+                </div>
+                <button
+                    class="button-primary __action_button"
                     type="submit" 
                     x-show="uiState==='recorded'">
+                        <i class="fa-solid fa-circle-right"></i>
+                        &nbsp;Next Sentence
+                </button>
             </form>
-            <div class="sound-clips">
-                <article>
+            <div
+                class="player-block"
+                x-show="uiState==='recorded'"
+                >
+                <p class="__player_instruction">
+                    Check Your Recording:
+                </p>
+                <article class="__player">
                     <audio
                         id="audioClip"
                         >
-
                     </audio>
                 </article>
             </div>

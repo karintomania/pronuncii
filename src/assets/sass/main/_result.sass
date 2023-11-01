@@ -1,0 +1,27 @@
+@use '../vars'
+@use '../common'
+
+.main-result
+  .hero
+    display: block
+
+    .hero__container
+      padding-left: 0px
+      position: relative
+
+      .hero__image
+        width: 100%
+
+      .hero__title
+        margin: 0px
+        position: absolute
+        top: 25%
+        left: 50%
+        transform: translate(-50%, -50%)
+        color: vars.$color-white
+        font-size: 2rem
+        @include common.font-header
+
+
+
+

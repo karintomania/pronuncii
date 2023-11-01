@@ -1,14 +1,29 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<h1>Result</h1>
-{% for result in results %}
-<ul>
-<li>{{ result }}</li>
-<li>{{ result.sentence }}</li>
-<li>{{ result.file_path }}</li>
-<li>{{ result.answer }}</li>
-</ul>
-{% endfor %}
-<a href="{% url 'main:index' %}">back</a>
+{%load static %}
+<div class="main-result">
+    <section class="hero">
+            <div class="hero__container container-lg">
+                <img class="hero__image" src="{% static "img/main/result/result-bg.svg" %}">
+                <h1 class="hero__title">
+                    Result
+                </h1>
+            </div>
+    </section>
+
+    <section>
+        <h1>Result</h1>
+        {% for result in results %}
+        <ul>
+        <li>{{ result }}</li>
+        <li>{{ result.sentence }}</li>
+        <li>{{ result.file_path }}</li>
+        <li>{{ result.answer }}</li>
+        </ul>
+        </div>
+
+        {% endfor %}
+        <a href="{% url 'main:index' %}">back</a>
+    </section>
 {% endblock content %}

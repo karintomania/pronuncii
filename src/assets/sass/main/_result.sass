@@ -41,18 +41,22 @@
     text-align: center
 
     .result-sentence
-      width: 100%
+      width: 80%
       background-color: vars.$color-white
       position: relative
       padding: 1.5rem
-      @media (max-width: vars.$bp-md)
-        width: 80%
+      @media(min-width: vars.$bp-sm) and (max-width: vars.$bp-lg)
+        width: 70%
+      @media (min-width: vars.$bp-lg)
+        width: 50%
 
 
       .result-sentence__result-base
         margin-bottom: 1.5rem
         @include common.font-header
-        @include common.text-4xl
+        @include common.text-3xl
+        @media (max-width: vars.$bp-sm)
+          @include common.text-2xl
 
       .result-sentence__correct
         @extend .result-sentence__result-base
@@ -64,21 +68,22 @@
 
       .result-sentence__q-index
         // position
-        position: absolute
-        left: -1rem
-        top: -2rem
         @extend .sentence-index
 
       .result-sentence__sentence
-        @include common.text-xl
+        @include common.text-lg
         padding: 1rem
         border-radius: 10px
         background-color: vars.$color-light-gray
         text-decoration: underline
         text-decoration-color: vars.$color-gray
         margin-bottom: 1.5rem
+        @media (max-width: vars.$bp-sm)
+          @include common.text-base
 
       .result-sentence__description
         width: 100%
         text-align: left
         @include common.text-lg
+
+      .result-sentence__player

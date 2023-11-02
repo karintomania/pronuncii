@@ -48,11 +48,15 @@
   text-align: center;
   line-height: 4rem;
   filter: drop-shadow(0.3rem 0.2rem 0rem #FFA41B);
+  position: absolute;
+  left: -1rem;
+  top: -2rem;
   font-family: "Jaldi", sans-serif;
   font-weight: 700;
 }
 @media (max-width: 576px) {
   .sentence-index, .main-result .result-board .result-sentence .result-sentence__q-index, .assessment .assessment-card .__question-index {
+    left: -0.5rem;
     width: 2.5rem;
     height: 2.5rem;
     font-size: 1.25rem;
@@ -224,22 +228,33 @@
   text-align: center;
 }
 .main-result .result-board .result-sentence {
-  width: 100%;
+  width: 80%;
   background-color: #FFFFFF;
   position: relative;
   padding: 1.5rem;
 }
-@media (max-width: 768px) {
+@media (min-width: 576px) and (max-width: 992px) {
   .main-result .result-board .result-sentence {
-    width: 80%;
+    width: 70%;
+  }
+}
+@media (min-width: 992px) {
+  .main-result .result-board .result-sentence {
+    width: 50%;
   }
 }
 .main-result .result-board .result-sentence .result-sentence__result-base, .main-result .result-board .result-sentence .result-sentence__wrong, .main-result .result-board .result-sentence .result-sentence__correct {
   margin-bottom: 1.5rem;
   font-family: "Jaldi", sans-serif;
   font-weight: 700;
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+@media (max-width: 576px) {
+  .main-result .result-board .result-sentence .result-sentence__result-base, .main-result .result-board .result-sentence .result-sentence__wrong, .main-result .result-board .result-sentence .result-sentence__correct {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
 }
 .main-result .result-board .result-sentence .result-sentence__correct {
   color: #03A0F8;
@@ -247,13 +262,8 @@
 .main-result .result-board .result-sentence .result-sentence__wrong {
   color: #F86F03;
 }
-.main-result .result-board .result-sentence .result-sentence__q-index {
-  position: absolute;
-  left: -1rem;
-  top: -2rem;
-}
 .main-result .result-board .result-sentence .result-sentence__sentence {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   line-height: 1.75rem;
   padding: 1rem;
   border-radius: 10px;
@@ -262,13 +272,18 @@
   text-decoration-color: #CCCCCC;
   margin-bottom: 1.5rem;
 }
+@media (max-width: 576px) {
+  .main-result .result-board .result-sentence .result-sentence__sentence {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
 .main-result .result-board .result-sentence .result-sentence__description {
   width: 100%;
   text-align: left;
   font-size: 1.125rem;
   line-height: 1.75rem;
 }
-
 .base-container, .container-lg, .container {
   width: 100%;
   padding: 1rem 2rem;

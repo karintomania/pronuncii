@@ -32,6 +32,16 @@
             <p class="result-sentence__sentence">
                 {{result.answer}}
             </p>
+            <div class="result-sentence__description">
+                <p>Check Your Recording:</p>
+            </div>
+            <article class="result-sentence__player">
+                <audio
+                    src="{% static "test.wav" %}"
+                    controls
+                    >
+                </audio>
+            </article>
         </div>
         <ul>
         <li>{{ result.sentence }}</li>

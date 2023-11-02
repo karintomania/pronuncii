@@ -1,10 +1,11 @@
 @use 'vars'
 
-$container-sm: 540px
-$container-md: 720px
-$container-lg: 960px
-$container-xl: 1140px
-$container-xxl: 1320px
+$container-xs: 320px
+$container-sm: 352px
+$container-md: 564px
+$container-lg: 732px
+$container-xl: 920px
+$container-2xl: 1164px
 
 .base-container
   width: 100%
@@ -12,20 +13,23 @@ $container-xxl: 1320px
 
 .container
   @extend .base-container
-  @media (min-width: vars.$bp-sm) and (max-width: vars.$bp-md)
+  @media (max-width: vars.$bp-xs)
+    width: $container-xs
+    padding: 0.25rem 1rem
+  @media (min-width: vars.$bp-xs) and (max-width: vars.$bp-sm)
     width: $container-sm
-  @media (min-width: vars.$bp-md) and (max-width: vars.$bp-lg)
+    padding: 0.25rem 1rem
+  @media (min-width: vars.$bp-sm) and (max-width: vars.$bp-md)
     width: $container-md
-  @media (min-width: vars.$bp-lg) and (max-width: vars.$bp-xl)
+    padding: 0.25rem 1rem
+  @media (min-width: vars.$bp-md) and (max-width: vars.$bp-lg)
     width: $container-lg
-  @media (min-width: vars.$bp-xl) and (max-width: vars.$bp-xxl)
+  @media (min-width: vars.$bp-lg) and (max-width: vars.$bp-xl)
     width: $container-xl
-  @media (min-width: vars.$bp-xxl)
-    width: $container-xxl
+  @media (min-width: vars.$bp-xl)
+    width: $container-2xl
 
 .container-lg
   @extend .base-container
-  @media (min-width: vars.$bp-xl) and (max-width: vars.$bp-xxl)
-    width: $container-xl
-  @media (min-width: vars.$bp-xxl)
-    width: $container-xxl
+  @media (min-width: vars.$bp-xl)
+    width: $container-2xl

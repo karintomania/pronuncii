@@ -5,8 +5,7 @@ import os
 
 
 def save_file(file, session_key, index):
-    name = "recording{:02}.jpg".format(index)
-    path = f"{settings.BASE_DIR}/{session_key}/main/static/{name}.wav"
+    name = "recording{:02}.wav".format(index)
 
     temp_dir = os.path.join(tempfile.gettempdir(), session_key)
 
@@ -18,7 +17,7 @@ def save_file(file, session_key, index):
         for chunk in file.chunks():
             destination.write(chunk)
 
-    return path
+    return file_path
 
 
 def remove_folder(sessionId):

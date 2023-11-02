@@ -2,7 +2,13 @@
 @use '../common'
 
 .main-result
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
   .hero
+    width: 100%
     display: block
 
     .hero__container
@@ -11,17 +17,68 @@
 
       .hero__image
         width: 100%
+        max-width: vars.$bp-md
 
       .hero__title
         margin: 0px
         position: absolute
-        top: 25%
-        left: 50%
-        transform: translate(-50%, -50%)
+        top: 30%
+        left: 2rem
+        transform: translate(0%, -50%)
         color: vars.$color-white
-        font-size: 2rem
+        @include common.text-5xl
         @include common.font-header
+        @media(min-width: vars.$bp-sm) and (max-width: vars.$bp-md)
+          @include common.text-4xl
+        @media (max-width: vars.$bp-sm)
+          @include common.text-3xl
+
+  .result-board
+    margin-top: 2rem
+    display: flex
+    flex-direction: column
+    align-items: center
+    text-align: center
+
+    .result-sentence
+      width: 100%
+      background-color: vars.$color-white
+      position: relative
+      padding: 1.5rem
+      @media (max-width: vars.$bp-md)
+        width: 80%
 
 
+      .result-sentence__result-base
+        margin-bottom: 1.5rem
+        @include common.font-header
+        @include common.text-4xl
 
+      .result-sentence__correct
+        @extend .result-sentence__result-base
+        color: vars.$color-accent
 
+      .result-sentence__wrong
+        @extend .result-sentence__result-base
+        color: vars.$color-secondary
+
+      .result-sentence__q-index
+        // position
+        position: absolute
+        left: -1rem
+        top: -2rem
+        @extend .sentence-index
+
+      .result-sentence__sentence
+        @include common.text-xl
+        padding: 1rem
+        border-radius: 10px
+        background-color: vars.$color-light-gray
+        text-decoration: underline
+        text-decoration-color: vars.$color-gray
+        margin-bottom: 1.5rem
+
+      .result-sentence__description
+        width: 100%
+        text-align: left
+        @include common.text-lg

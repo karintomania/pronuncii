@@ -1,18 +1,15 @@
-from django.contrib.sessions.backends.db import SessionStore
-from pronuncii import settings
-import tempfile
+from pathlib import Path
 import os
+from django.core.files.uploadedfile import UploadedFile
+from django.conf import settings
 
 
-def save_file(file, session_key, index):
-    name = "recording{:02}.wav".format(index)
+def save_file(file: UploadedFile, file_path: Path) -> Path:
+    folder_path = file_path.parent
 
-    temp_dir = os.path.join(tempfile.gettempdir(), session_key)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
 
-    if not os.path.exists(temp_dir):
-        os.makedirs(temp_dir)
-
-    file_path = os.path.join(temp_dir, name)
     with open(file_path, "wb+") as destination:
         for chunk in file.chunks():
             destination.write(chunk)
@@ -20,5 +17,15 @@ def save_file(file, session_key, index):
     return file_path
 
 
-def remove_folder(sessionId):
-    print(sessionId)
+def generate_file_path(session_key: str, index: int) -> Path:
+    str_path = (
+        f"{settings.RECORDING_FILE_DIR_PATH}{session_key}/recording{index:02}.wav"
+    )
+
+    path = Path(str_path)
+
+    return path
+
+
+def remove_folder(session_id):
+    print(session_id)

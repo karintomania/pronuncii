@@ -11,10 +11,16 @@
             </div>
     </section>
 
-    <section class="container result-board">
+    <section
+        class="container result-board"
+        x-data="{sentenceIndex: 1}"
+        >
         {% for result in results %}
-        <div class="result-sentence">
-            <div class="result-sentence__q-index">1</div>
+        <div class="result-sentence"
+             x-data="{
+                  isCorrect: {{result.sentence==result.answer?0:1}},
+             }">
+            <div class="result-sentence__q-index" >{{forloop.counter}}</div>
             <div class="result-sentence__correct">Correct!!</div>
             <p class="result-sentence__sentence">
                 Hello World!!

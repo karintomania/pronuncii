@@ -60,6 +60,7 @@ def save_recording(request):
 
     assessment_service = AssessmentService(request.session)
     session_key = request.session.session_key
+    print(session_key)
     file_path = save_file(
         request.FILES["recording"], session_key, assessment_service.get_current_index()
     )

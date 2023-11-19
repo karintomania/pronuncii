@@ -284,6 +284,10 @@
   font-size: 1.125rem;
   line-height: 1.75rem;
 }
+.main-result .result-board .result-sentence .result-sentence__player audio::-webkit-media-controls-panel {
+  background-color: #F3F3F3;
+}
+
 .base-container, .container-lg, .container {
   width: 100%;
   padding: 1rem 2rem;

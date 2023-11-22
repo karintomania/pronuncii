@@ -18,7 +18,12 @@
         {% for result in results %}
         <div class="result-sentence"
              x-data="{
-                  isCorrect: {{result.sentence==result.answer?0:1}},
+                  isCorrect:
+                    {% if result.sentence == result.answer %}
+                        0
+                    {% else %}
+                        1
+                    {% endif %},
              }">
             <div class="result-sentence__q-index" >{{forloop.counter}}</div>
             <div class="result-sentence__correct">Correct!!</div>
@@ -43,17 +48,12 @@
             </div>
             <article class="result-sentence__player">
                 <audio
-                    src="{% static "test.wav" %}"
+                        src="{{ result.file_path }}"
                     controls
                     >
                 </audio>
             </article>
         </div>
-        <ul>
-        <li>{{ result.sentence }}</li>
-        <li>{{ result.file_path }}</li>
-        <li>{{ result.answer }}</li>
-        </ul>
         {% endfor %}
         <a href="{% url 'main:index' %}">back</a>
     </section>

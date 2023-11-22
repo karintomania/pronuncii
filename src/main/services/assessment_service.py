@@ -1,7 +1,9 @@
+from pathlib import Path
 from main.models import Sentence as SentenceModel
 from main.services.assessment.assessment import Assessment
 from main.services.assessment.sentence import Sentence
 from main.services.session_service import SessionService
+from django.conf import settings
 
 
 class AssessmentService:
@@ -28,9 +30,12 @@ class AssessmentService:
         sentence = sentences[self.index]
         return sentence
 
-    def add_file_path(self, file_path: str):
+    def add_file_path(self, file_path: Path):
         sentence = self.get_current_sentence()
-        sentence.file_path = file_path
+        base_path = Path(settings.BASE_DIR)
+
+        relative_path = file_path.relative_to(base_path)
+        sentence.file_path = str(relative_path)
         sentence.is_answered = True
 
         self.session_service.set_assessment(self.assessment)

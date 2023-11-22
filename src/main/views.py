@@ -56,7 +56,7 @@ def save_recording(request):
     file_path = generate_file_path(session_key, index)
     file_path = save_file(request.FILES["recording"], file_path)
 
-    assessment_service.add_file_path(file_path.__str__())
+    assessment_service.add_file_path(file_path)
     return True
 
 

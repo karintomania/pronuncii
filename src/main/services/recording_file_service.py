@@ -22,6 +22,7 @@ def generate_file_path(session_key: str, index: int) -> Path:
         f"{settings.RECORDING_FILE_DIR_PATH}{session_key}/recording{index:02}.wav"
     )
 
+    print(str_path)
     path = Path(str_path)
 
     return path

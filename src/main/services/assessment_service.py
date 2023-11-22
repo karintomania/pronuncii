@@ -28,7 +28,7 @@ class AssessmentService:
         sentence = sentences[self.index]
         return sentence
 
-    def add_file_path(self, file_path):
+    def add_file_path(self, file_path: str):
         sentence = self.get_current_sentence()
         sentence.file_path = file_path
         sentence.is_answered = True

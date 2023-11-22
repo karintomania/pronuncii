@@ -1,21 +1,14 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-import json
 from .models import Sentence
-from django.core import serializers
-from pprint import pp
 from django.shortcuts import redirect
 from .forms import FileForm
-from django.conf import settings
-from .services.recording_file_service import save_file
-from .services.session_service import SessionService
+from .services.recording_file_service import save_file, generate_file_path
 from .services.assessment_service import AssessmentService
 from .services.whisper_service import set_answers
 
 
 # Create your views here.
 def index(request):
-
     return render(request, "main/index.html")
 
 
@@ -24,7 +17,6 @@ def assessment(request):
     assessment_service = AssessmentService(request.session)
 
     form = FileForm()
-
 
     # show one question
     return render(
@@ -60,12 +52,11 @@ def save_recording(request):
 
     assessment_service = AssessmentService(request.session)
     session_key = request.session.session_key
-    print(session_key)
-    file_path = save_file(
-        request.FILES["recording"], session_key, assessment_service.get_current_index()
-    )
+    index = assessment_service.get_current_index()
+    file_path = generate_file_path(session_key, index)
+    file_path = save_file(request.FILES["recording"], file_path)
 
-    assessment_service.add_file_path(file_path)
+    assessment_service.add_file_path(file_path.__str__())
     return True
 
 
@@ -81,5 +72,3 @@ def result(request):
         "main/result.html",
         {"results": sentences},
     )
-
-

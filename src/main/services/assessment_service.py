@@ -32,10 +32,9 @@ class AssessmentService:
 
     def add_file_path(self, file_path: Path):
         sentence = self.get_current_sentence()
-        base_path = Path(settings.BASE_DIR)
 
-        relative_path = file_path.relative_to(base_path)
-        sentence.file_path = str(relative_path)
+
+        sentence.file_path = self.convert_path_to_uri(file_path)
         sentence.is_answered = True
 
         self.session_service.set_assessment(self.assessment)
@@ -44,3 +43,9 @@ class AssessmentService:
 
     def finish_assessment(self):
         self.session_service.reset_session()
+
+    def convert_path_to_uri(self, file_path: Path) -> str:
+        # save the relative path
+        base_path = Path(settings.BASE_DIR)
+        relative_path = file_path.relative_to(base_path)
+        return str(relative_path)

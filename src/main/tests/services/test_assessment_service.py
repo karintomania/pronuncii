@@ -1,17 +1,17 @@
+from pathlib import Path
+
 from django.db import models
 from django.test import TestCase
+from django.conf import settings
 
 from main.models import Sentence as SentenceModel
-from main.models import SentenceManager
 
 from main.services.assessment.sentence import Sentence
 from main.services.assessment_service import AssessmentService
-from pprint import pp
 
 from main.services.session_service import SessionService
 
 
-# Create your tests here.
 class AssessmentServiceTest(TestCase):
     def setUp(self) -> None:
         # Overwrite the sentences count
@@ -25,7 +25,9 @@ class AssessmentServiceTest(TestCase):
                 .order_by("id")[: SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT]
             )
 
-        SentenceModel.objects.get_sentences_for_assessment = fake_get_sentences_for_assessment
+        SentenceModel.objects.get_sentences_for_assessment = (
+            fake_get_sentences_for_assessment
+        )
 
         self.sentence_count = SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT
         sentence_count = self.sentence_count
@@ -138,12 +140,16 @@ class AssessmentServiceTest(TestCase):
         }
 
         assessment_service = AssessmentService(session_mock)
-        file_path = "some/path/test2.mp3"
+
+        file_path_str = settings.RECORDING_FILE_DIR_PATH + "/tests/test2.mp3"
+        file_path = Path(file_path_str)
 
         assessment_service.add_file_path(file_path)
 
         sentence = assessment_service.get_current_sentence()
-        self.assertEqual(file_path, sentence.file_path)
+
+        # assert the file path is converted to uri
+        self.assertEqual("static/recordings/tests/test2.mp3", sentence.file_path)
         self.assertTrue(sentence.is_answered)
 
     def test_finish_assessment(self):

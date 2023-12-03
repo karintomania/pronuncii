@@ -42,7 +42,7 @@ class RecordingFileServiceTest(TestCase):
         result = generate_file_path(session_key, index)
 
         expected = (
-            f"{settings.RECORDING_FILE_DIR_PATH}{session_key}/recording{index:02}.wav"
+            f"{settings.RECORDING_FILE_DIR_PATH}{session_key}/recording{index:02}.ogg"
         )
 
         self.assertEqual(expected, result.__str__())

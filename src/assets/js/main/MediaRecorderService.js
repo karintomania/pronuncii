@@ -45,7 +45,7 @@ class MediaRecorderService{
 
               // set file
               let container = new DataTransfer();
-              let file = new File([blob], "sound.wav",{type:"audio/wav"});
+              let file = new File([blob], "sound.ogg",{type:"audio/ogg"});
               container.items.add(file);
               handleRecordFile(container.files);
 

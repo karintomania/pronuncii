@@ -19,7 +19,7 @@ def save_file(file: UploadedFile, file_path: Path) -> Path:
 
 def generate_file_path(session_key: str, index: int) -> Path:
     str_path = (
-        f"{settings.RECORDING_FILE_DIR_PATH}{session_key}/recording{index:02}.wav"
+        f"{settings.RECORDING_FILE_DIR_PATH}{session_key}/recording{index:02}.ogg"
     )
 
     print(str_path)

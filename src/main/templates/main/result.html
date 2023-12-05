@@ -20,23 +20,29 @@
              x-data="{
                   isCorrect:
                     {% if result.sentence == result.answer %}
-                        0
-                    {% else %}
                         1
+                    {% else %}
+                        0
                     {% endif %},
              }">
             <div class="result-sentence__q-index" >{{forloop.counter}}</div>
-            <div class="result-sentence__correct">Correct!!</div>
-            <p class="result-sentence__sentence">
-                Hello World!!
-            </p>
-            <div class="result-sentence__wrong">Wrong!!</div>
-            <div class="result-sentence__description">
-                <p>Sentence You Read:</p>
+            <div
+                x-show="isCorrect">
+                <div class="result-sentence__correct">Correct!!</div>
+                <p class="result-sentence__sentence">
+                    {{result.sentence}}
+                </p>
             </div>
-            <p class="result-sentence__sentence">
-                {{result.sentence}}
-            </p>
+            <div
+                x-show="!isCorrect">
+                <div class="result-sentence__wrong">Wrong!!</div>
+                <div class="result-sentence__description">
+                    <p>Sentence You Read:</p>
+                </div>
+                <p class="result-sentence__sentence">
+                    {{result.sentence}}
+                </p>
+            </div>
             <div class="result-sentence__description">
                 <p>Your Pronunciation:</p>
             </div>
@@ -55,6 +61,6 @@
             </article>
         </div>
         {% endfor %}
-        <a href="{% url 'main:index' %}">back</a>
+        <a class="back-button button-accent" href="{% url 'main:index' %}">Back</a>
     </section>
 {% endblock content %}

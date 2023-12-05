@@ -1,5 +1,6 @@
 @use '../vars'
 @use '../common'
+@use './main-common'
 
 .main-result
   display: flex
@@ -26,15 +27,12 @@
         left: 2rem
         transform: translate(0%, -50%)
         color: vars.$color-white
-        @include common.text-5xl
+        @include common.text-4xl
         @include common.font-header
-        @media(min-width: vars.$bp-sm) and (max-width: vars.$bp-md)
-          @include common.text-4xl
-        @media (max-width: vars.$bp-sm)
-          @include common.text-3xl
 
   .result-board
     margin-top: 2rem
+    margin-bottom: 2rem
     display: flex
     flex-direction: column
     align-items: center
@@ -43,6 +41,8 @@
     .result-sentence
       width: 80%
       background-color: vars.$color-white
+      margin-top: 2rem
+      margin-bottom: 2rem
       position: relative
       padding: 1.5rem
       @media(min-width: vars.$bp-sm) and (max-width: vars.$bp-lg)
@@ -68,18 +68,10 @@
 
       .result-sentence__q-index
         // position
-        @extend .sentence-index
+        @include main-common.sentence-index
 
       .result-sentence__sentence
-        @include common.text-lg
-        padding: 1rem
-        border-radius: 10px
-        background-color: vars.$color-light-gray
-        text-decoration: underline
-        text-decoration-color: vars.$color-gray
-        margin-bottom: 1.5rem
-        @media (max-width: vars.$bp-sm)
-          @include common.text-base
+        @include main-common.sentence-box
 
       .result-sentence__description
         width: 100%
@@ -87,6 +79,9 @@
         @include common.text-lg
 
       .result-sentence__player
-
         audio::-webkit-media-controls-panel
           background-color: vars.$color-light-gray
+
+
+    .back-button
+      @include common.text-xl

@@ -1,5 +1,6 @@
 @use '../vars'
 @use '../common'
+@use './main-common'
 
 
 .assessment
@@ -14,7 +15,7 @@
     align-items: center
     background-color: vars.$color-white
     padding: 1rem 3rem
-    margin: 4rem 1.5rem 0rem
+    margin: 4rem 0rem 0rem
 
 
   .assessment-card
@@ -27,9 +28,7 @@
     .__question-index
       // position
       position: absolute
-      left: -1rem
-      top: -2rem
-      @extend .sentence-index
+      @include main-common.sentence-index
 
     .__instruction_box
       width: 100%
@@ -37,12 +36,12 @@
 
     .__instruction
       color: vars.$color-primary
-      font-size: 2rem
+      @include common.text-xl
       @include common.font-header
 
     .__recording_progress
       color: vars.$color-primary
-      font-size: 2.5rem
+      @include common.text-2xl
       @include common.font-header
 
     .__sentence_box
@@ -50,14 +49,14 @@
       border-radius: 10px
       width: 100%
       padding: 1rem 1rem
-      font-size: 1.5rem
+      @include common.text-base
       margin-bottom: 2rem
       box-sizing: border-box
 
     .__action_button
       display: block 
       width: 100%
-      font-size: 1.5rem
+      @include common.text-lg
       margin-bottom: 1rem
 
     form
@@ -78,7 +77,7 @@
 
     .__player_instruction
       width: 100%
-      font-size: 1.2rem
+      @include common.text-lg
 
     .__player
       width: 100%

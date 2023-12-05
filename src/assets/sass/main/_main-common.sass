@@ -1,0 +1,27 @@
+@use '../vars'
+@use '../common'
+
+
+@mixin sentence-index
+  // background circle
+  color: vars.$color-white
+  @include common.text-xl
+  background: vars.$color-secondary
+  width: 2.5rem
+  height: 2.5rem
+  border-radius: 50%
+  text-align: center
+  line-height: 2.5rem
+  filter: drop-shadow(0.3rem 0.2rem 0rem vars.$color-primary)
+  position: absolute
+  left: -1rem
+  top: -2rem
+  @include common.font-header
+
+@mixin sentence-box
+  @include common.text-lg
+  padding: 1rem
+  border-radius: 10px
+  background-color: vars.$color-light-gray
+  text-decoration: underline
+  text-decoration-color: vars.$color-gray

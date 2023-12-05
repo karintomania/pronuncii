@@ -11,8 +11,13 @@ html
   font-family: Arial, sans-serif
   -ms-text-size-adjust: 100%
   -webkit-text-size-adjust: 100%
+  font-size: 22px
   background-color: vars.$color-base
   color: vars.$color-text
+  @media (max-width: vars.$bp-md)
+    font-size: 20px
+  @media (max-width: vars.$bp-sm)
+    font-size: 16px
 
 body
   margin: 0
@@ -22,3 +27,5 @@ p
 
 form
   margin: 0
+
+

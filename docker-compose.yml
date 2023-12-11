@@ -33,5 +33,10 @@ services:
       dockerfile: ./Dockerfile-front
     volumes:
       - "./src/:/app/"
+
+  pronuncii-redis:
+    container_name: pronuncii-redis
+    image: redis:7.2
+
 volumes:
   pronuncii-db:

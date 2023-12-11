@@ -3,7 +3,6 @@ from main.models import Sentence as SentenceModel
 from main.services.assessment.sentence import Sentence
 from main.services.session_service import SessionService
 from main.services.assessment.assessment import Assessment
-from main.services.assessment.sentence import Sentence
 from pprint import pp
 
 

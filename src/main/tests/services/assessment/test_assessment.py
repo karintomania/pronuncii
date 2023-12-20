@@ -1,8 +1,10 @@
+from pathlib import Path
 from unittest import TestCase
 from main.services.assessment.sentence import Sentence
 from main.services.assessment.assessment import Assessment
 from pprint import pp
 from main.models import Sentence as SentenceModel
+from django.conf import settings
 
 
 class AssessmentTest(TestCase):
@@ -43,7 +45,7 @@ class AssessmentTest(TestCase):
         sentence = Sentence(
             "sentence",
             "http://example.com/test.mp3",
-            "some/path/test.mp3",
+            Path(settings.RECORDING_FILE_DIR_PATH + "some/path/test.mp3"),
             False,
             "answer",
         )
@@ -54,7 +56,7 @@ class AssessmentTest(TestCase):
             {
                 "sentence": "sentence",
                 "sound_url": "http://example.com/test.mp3",
-                "file_path": "some/path/test.mp3",
+                "file_path": settings.RECORDING_FILE_DIR_PATH + "some/path/test.mp3",
                 "is_answered": False,
                 "answer": "answer",
             }
@@ -67,7 +69,7 @@ class AssessmentTest(TestCase):
             {
                 "sentence": "sentence",
                 "sound_url": "http://example.com/test.mp3",
-                "file_path": "some/path/test.mp3",
+                "file_path": Path(settings.RECORDING_FILE_DIR_PATH + "some/path/test.mp3"),
                 "is_answered": False,
                 "answer": "answer",
             }
@@ -75,7 +77,7 @@ class AssessmentTest(TestCase):
         res = Assessment.from_dict(assessment_dic)
         res_sentence = res.get_sentences()[0]
         expected_sentence = Sentence(
-            "sentence", "http://example.com/test.mp3", "some/path/test.mp3", False
+            "sentence", "http://example.com/test.mp3", Path(settings.RECORDING_FILE_DIR_PATH + "some/path/test.mp3"), False
         )
         self.assertEqual(expected_sentence.sentence, res_sentence.sentence)
         self.assertEqual(

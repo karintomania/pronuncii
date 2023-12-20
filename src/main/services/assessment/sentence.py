@@ -25,13 +25,13 @@ class Sentence:
             "answer": self.answer,
         }
 
-    def get_uri(self) -> str:
+    @property
+    def uri(self) -> str:
         base_path = Path(settings.BASE_DIR)
         file_path = self.file_path
         relative_path = file_path.relative_to(base_path)
         return str(relative_path)
 
-    uri = property(get_uri)
 
     @classmethod
     def from_dict(cls, q_dict):

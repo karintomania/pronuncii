@@ -61,10 +61,10 @@ class AssessmentServiceTest(TestCase):
 
     def test_init_sets_assessment_from_session(self) -> None:
         sentence1 = Sentence(
-            "sentence1", "http://example.com/test1.mp3", "some/path/test1.mp3", True
+            "sentence1", "http://example.com/test1.mp3", Path(settings.RECORDING_FILE_DIR_PATH+"some/path/test1.mp3"), True
         )
         sentence2 = Sentence(
-            "sentence2", "http://example.com/test2.mp3", "some/path/test2.mp3", True
+            "sentence2", "http://example.com/test2.mp3", Path(settings.RECORDING_FILE_DIR_PATH+"some/path/test2.mp3"), True
         )
         # set sentence to session
         session_mock = {
@@ -80,11 +80,13 @@ class AssessmentServiceTest(TestCase):
         self.assertEqual(sentence1.sound_url, sentences[0].sound_url)
         self.assertEqual(sentence1.file_path, sentences[0].file_path)
         self.assertEqual(sentence1.is_answered, sentences[0].is_answered)
+        self.assertEqual("static/recordings/some/path/test1.mp3", sentences[0].uri)
 
         self.assertEqual(sentence2.sentence, sentences[1].sentence)
         self.assertEqual(sentence2.sound_url, sentences[1].sound_url)
         self.assertEqual(sentence2.file_path, sentences[1].file_path)
         self.assertEqual(sentence2.is_answered, sentences[1].is_answered)
+        self.assertEqual("static/recordings/some/path/test2.mp3", sentences[1].uri)
 
         self.assertEqual(
             assessment_service.index, session_mock.get(SessionService.CURRENT_INDEX_KEY)
@@ -148,8 +150,8 @@ class AssessmentServiceTest(TestCase):
 
         sentence = assessment_service.get_current_sentence()
 
-        # assert the file path is converted to uri
-        self.assertEqual("static/recordings/tests/test2.mp3", sentence.file_path)
+        self.assertEqual(file_path, sentence.file_path)
+        self.assertEqual("static/recordings/tests/test2.mp3", sentence.uri)
         self.assertTrue(sentence.is_answered)
 
     def test_finish_assessment(self):

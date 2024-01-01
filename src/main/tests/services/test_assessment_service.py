@@ -1,7 +1,10 @@
+from datetime import datetime, timedelta
 from pathlib import Path
+from typing import List
+from unittest.mock import Mock
 
-from django.db import models
-from django.test import TestCase
+from unittest import TestCase
+from unittest.mock import patch
 from django.conf import settings
 
 from main.models import Sentence as SentenceModel
@@ -13,35 +16,27 @@ from main.services.session_service import SessionService
 
 
 class AssessmentServiceTest(TestCase):
+    mock_qset: List
+
     def setUp(self) -> None:
         # Overwrite the sentences count
-        SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT = 2
+        sentence_count = 2
+        SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT = sentence_count
 
-        # Create mock function as random qset is hard to test
-        def fake_get_sentences_for_assessment() -> models.QuerySet:
-            return (
-                SentenceModel.objects.all()
-                .only("id")
-                .order_by("id")[: SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT]
-            )
+        def make_mock_sentence(i: int) -> Mock:
+            mock = Mock(spec=SentenceModel)
+            mock.sentence = f"sentence{str(i)}"
+            mock.url = f"http://example.com/{str(i)}"
+            return mock
 
-        SentenceModel.objects.get_sentences_for_assessment = (
-            fake_get_sentences_for_assessment
-        )
+        self.mock_qset = [make_mock_sentence(i) for i in range(1, sentence_count + 1)]
 
-        self.sentence_count = SentenceModel.objects.ASSESSMENT_SENTENCES_COUNT
-        sentence_count = self.sentence_count
-
-        for i in range(sentence_count + 1):
-            SentenceModel.objects.create(
-                sentence=f"test {i+1}",
-                sound_url=f"url{i+1}",
-            )
+        SentenceModel.objects.get_sentences_for_assessment = lambda: self.mock_qset
 
         return super().setUp()
 
     def test_init_sets_assessment_from_db(self) -> None:
-        qset = SentenceModel.objects.get_sentences_for_assessment()
+        qset = self.mock_qset
         session_mock = {}
         assessment_service = AssessmentService(session_mock)
 
@@ -61,10 +56,16 @@ class AssessmentServiceTest(TestCase):
 
     def test_init_sets_assessment_from_session(self) -> None:
         sentence1 = Sentence(
-            "sentence1", "http://example.com/test1.mp3", Path(settings.RECORDING_FILE_DIR_PATH+"some/path/test1.mp3"), True
+            "sentence1",
+            "http://example.com/test1.mp3",
+            Path(settings.RECORDING_FILE_DIR_PATH + "some/path/test1.mp3"),
+            True,
         )
         sentence2 = Sentence(
-            "sentence2", "http://example.com/test2.mp3", Path(settings.RECORDING_FILE_DIR_PATH+"some/path/test2.mp3"), True
+            "sentence2",
+            "http://example.com/test2.mp3",
+            Path(settings.RECORDING_FILE_DIR_PATH + "some/path/test2.mp3"),
+            True,
         )
         # set sentence to session
         session_mock = {
@@ -154,23 +155,53 @@ class AssessmentServiceTest(TestCase):
         self.assertEqual("static/recordings/tests/test2.mp3", sentence.uri)
         self.assertTrue(sentence.is_answered)
 
-    def test_finish_assessment(self):
+    def test_reset_assessment(self):
         current_index = 1
         sentence1 = Sentence(
-            "sentence1", "http://example.com/test1.mp3", "some/path/test1.mp3", True
-        )
-        sentence2 = Sentence(
-            "sentence2", "http://example.com/test2.mp3", "some/path/test2.mp3", True
+            "sentence1",
+            "http://example.com/test1.mp3",
+            Path("some/path/test1.mp3"),
+            True,
         )
         # set sentence to session
         session_mock = {
-            SessionService.ASSESSMENT_KEY: [sentence1.to_dict(), sentence2.to_dict()],
+            SessionService.ASSESSMENT_KEY: [sentence1.to_dict()],
             SessionService.CURRENT_INDEX_KEY: current_index,
         }
 
         assessment_service = AssessmentService(session_mock)
 
-        assessment_service.finish_assessment()
+        assessment_service.reset_assessment()
         session_service = assessment_service.session_service
         self.assertEqual(None, session_service.get_assessment())
         self.assertEqual(0, session_service.get_index())
+
+    def test_finish_assessment(self):
+        current_index = 1
+        sentence1 = Sentence(
+            "sentence1",
+            "http://example.com/test1.mp3",
+            Path("some/path/test1.mp3"),
+            True,
+        )
+        # set sentence to session
+        session_mock = {
+            SessionService.ASSESSMENT_KEY: [sentence1.to_dict()],
+            SessionService.CURRENT_INDEX_KEY: current_index,
+        }
+        settings.RECORDING_SAVE_MINUTES = 30
+        mocked_now = datetime(2023, 2, 1, 0, 10, 20)
+        expected_expire_date = mocked_now + timedelta(
+            minutes=settings.RECORDING_SAVE_MINUTES
+        )
+        with patch("main.services.assessment_service.datetime") as mock_datetime:
+            mock_datetime.now.return_value = mocked_now
+            assessment_service = AssessmentService(session_mock)
+            assessment_service.finish_assessment()
+
+        session_service = assessment_service.session_service
+        self.assertEqual(None, session_service.get_assessment())
+        self.assertEqual(0, session_service.get_index())
+        self.assertEqual(
+            expected_expire_date, session_service.get_recording_expire_date()
+        )

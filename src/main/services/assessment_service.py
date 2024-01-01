@@ -1,9 +1,12 @@
+from datetime import datetime, timedelta
 from pathlib import Path
+
+from django.conf import settings
+
 from main.models import Sentence as SentenceModel
 from main.services.assessment.assessment import Assessment
 from main.services.assessment.sentence import Sentence
 from main.services.session_service import SessionService
-from django.conf import settings
 
 
 class AssessmentService:
@@ -40,6 +43,12 @@ class AssessmentService:
         index = self.session_service.get_index() + 1
         self.session_service.set_index(index)
 
-    def finish_assessment(self):
+    def reset_assessment(self):
+        # remove the recording
         self.session_service.reset_session()
 
+    def finish_assessment(self):
+        expires_at = datetime.now() + timedelta(minutes=settings.RECORDING_SAVE_MINUTES)
+        self.session_service.set_recording_expire_date(expires_at)
+
+        self.session_service.reset_session()

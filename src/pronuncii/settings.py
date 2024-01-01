@@ -133,6 +133,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # directory to save recoding files
 RECORDING_FILE_DIR_PATH = f"{BASE_DIR}/static/recordings/"
+# Keep the recording file for xx minutes
+RECORDING_SAVE_MINUTES = 30
 
 CACHES = {
     "default": {

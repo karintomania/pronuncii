@@ -37,5 +37,5 @@ class SessionService:
     def get_recording_expire_date(self) -> Optional[datetime]:
         return self.session[self.RECORD_EXPIRE_KEY]
 
-    def set_recording_expire_date(self, expires_at: datetime) -> None:
+    def set_recording_expire_date(self, expires_at: Optional[datetime]) -> None:
         self.session[self.RECORD_EXPIRE_KEY] = expires_at

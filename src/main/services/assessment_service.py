@@ -17,7 +17,13 @@ class AssessmentService:
             self.assessment = self.session_service.get_assessment()
             self.index = self.session_service.get_index()
 
+
         else:
+            if self.session_service.get_recording_expire_date() is not None:
+                # remove recording
+                # reset expire_date
+                self.session_service.set_recording_expire_date(None)
+                pass
             qset = SentenceModel.objects.get_sentences_for_assessment()
             self.assessment = Assessment.from_qset(qset)
             self.session_service.set_assessment(self.assessment)
